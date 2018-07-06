@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerStatistics PlayerStatistics;
     public PlayerMovement PlayerMovement;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
+
+    public void InitialisePlayer()
+    {
+        PlayerStatistics.ResetStats();
+    }
 }
