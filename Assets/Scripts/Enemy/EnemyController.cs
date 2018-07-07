@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour {
 
 
     public EnemyAI EnemyAI;
+    public EnemyStats EnemyStats;
     
     // Use this for initialization
 	void Start ()
