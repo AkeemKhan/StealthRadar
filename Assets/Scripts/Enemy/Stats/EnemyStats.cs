@@ -9,7 +9,8 @@ public abstract class EnemyStats : MonoBehaviour
     public float PatrolSpeed;
     public float FovAngleStrong;
     public float FovAngleWeak;
-    public float DetectRange;
+    public float DetectRangeStrong;
+    public float DetectRangeWeak;
     public float RaycastOffset;
     public float PatrolRange;
     public float AlertPhaseDuration;
@@ -35,7 +36,7 @@ public abstract class EnemyStats : MonoBehaviour
         PatrolSpeed = 1;
         FovAngleStrong = 90;
         FovAngleWeak = 30;
-        DetectRange = 0;
+        DetectRangeStrong = 0;
         RaycastOffset = 0;
         PatrolRange = 5;
         AlertPhaseDuration = 60;
