@@ -7,7 +7,7 @@ public class PatrolAI : EnemyAI {
 
     public List<Vector3> PatrolRoute = new List<Vector3>();
     public GameObject GunOffset;
-    private LayerMask _layerMask = 8;
+    private LayerMask _layerMask = 1;
     public bool IsInTargetSight;
     public bool NewPatrolLocation = true;
 
@@ -72,7 +72,7 @@ public class PatrolAI : EnemyAI {
     public override void AIStateUpdate()
     {
         // Check if in sight
-        if (FieldOfVisionController.IsInSight)
+        if (IsInTargetSight)
         {
             if (EnemyStats.FireCooldown >= EnemyStats.FireRate)
             {
@@ -104,14 +104,15 @@ public class PatrolAI : EnemyAI {
     {
         if (FieldOfVisionController.IsInSight)
         {            
-            RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, EnemyStats.DetectRange, _layerMask);
-            Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
+            RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, EnemyStats.DetectRangeStrong, _layerMask);
 
             if (hit)
             {
                 Debug.Log("Hit");
                 if (hit.collider.tag == EntityConstants.PLAYER_TAG)
                 {
+                    Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
+                    IsInTargetSight = true;
                     EnemyStats.Speed = EnemyStats.PersueSpeed;
                     TargetPosition = PlayerPosition;
                     SetAlert();
@@ -127,7 +128,7 @@ public class PatrolAI : EnemyAI {
                 if (hit.collider.tag == EntityConstants.WALL_TAG)
                 {
                     Debug.Log("Hitting Wall");
-                    FieldOfVisionController.IsInSight = false;
+                    IsInTargetSight = false;
 
                     if (EnemyStats.AlertPhaseCountdown <= 0)
                         EnemyState = EnemyState.Patrol;
@@ -147,7 +148,7 @@ public class PatrolAI : EnemyAI {
     {
         SetAlert();
 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, EnemyStats.DetectRange);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, EnemyStats.DetectRangeStrong);
 
         foreach (Collider2D item in hitColliders)
         {
