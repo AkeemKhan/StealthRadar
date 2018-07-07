@@ -53,6 +53,7 @@ public enum EnemyState
     Alert,
     Persue,
     Shoot,
+    Track,
     Disabled
 }
 

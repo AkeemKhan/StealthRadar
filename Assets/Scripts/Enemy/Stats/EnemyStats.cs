@@ -23,6 +23,8 @@ public abstract class EnemyStats : MonoBehaviour
     public float FireCooldown;
     public float AlertPhaseCountdown;
     public float AlertCounter;
+    public float TrackingTime;
+    public float TrackingCountdown;
 
     void Start()
     {

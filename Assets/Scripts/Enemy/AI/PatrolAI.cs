@@ -11,6 +11,12 @@ public class PatrolAI : EnemyAI {
     public bool IsInTargetSight;
     public bool NewPatrolLocation = true;
 
+    // Tracking
+    public List<Vector2> BackTracker = new List<Vector2>();
+    public float trackRate = 0.1f;
+    public int maxBackTrack = 50;
+    public float backTrackCounter;
+
     void Start ()
     {
         Initialise();
@@ -19,6 +25,8 @@ public class PatrolAI : EnemyAI {
 	void Update ()
     {
         AIUpdate();
+
+
     }
 
     public override void Initialise()
@@ -64,6 +72,10 @@ public class PatrolAI : EnemyAI {
             if (EnemyStats.AlertCounter <= 10)
                 EnemyStats.AlertCounter += Time.captureFramerate;
 
+            if (EnemyState == EnemyState.Track)
+                EnemyStats.TrackingCountdown -= Time.deltaTime;
+                
+
             FieldOfVisionUpdate();
             AIStateUpdate();
         }
@@ -96,6 +108,11 @@ public class PatrolAI : EnemyAI {
 
             Patrol();            
         }
+        if (EnemyState == EnemyState.Track)
+        {
+            EnemyStats.Speed = EnemyStats.PersueSpeed;
+            TrackingUpdate();
+        }
 
         MovementToPosition();
     }
@@ -108,7 +125,6 @@ public class PatrolAI : EnemyAI {
 
             if (hit)
             {
-                Debug.Log("Hit");
                 if (hit.collider.tag == EntityConstants.PLAYER_TAG)
                 {
                     Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
@@ -127,15 +143,20 @@ public class PatrolAI : EnemyAI {
 
                 if (hit.collider.tag == EntityConstants.WALL_TAG)
                 {
-                    Debug.Log("Hitting Wall");
-                    IsInTargetSight = false;
+                    if (IsInTargetSight)
+                    {
+                        // Initiate tracking
+                        IsInTargetSight = false;
+                        PatrolRoute.Clear();
+                        EnemyState = EnemyState.Track;
+                        EnemyStats.TrackingCountdown = EnemyStats.TrackingTime;
+                    }
 
                     if (EnemyStats.AlertPhaseCountdown <= 0)
                         EnemyState = EnemyState.Patrol;
                     else
-                        EnemyState = EnemyState.Alert;
+                        EnemyState = EnemyState.Track;
                 }
-
             }
         }
         else
@@ -212,6 +233,16 @@ public class PatrolAI : EnemyAI {
         MovementToPosition();
     }    
 
+    public void FollowTrackingPath()
+    {
+        //var path = PlayerObject.GetComponent<PlayerController>().BackTracker;
+        //PatrolRoute.Clear();
+        //foreach (var pos in path)
+        //{
+        //    PatrolRoute.Add(pos);
+        //}
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         //if (coll.transform.tag == EntityConstants.WALL_TAG)
@@ -223,13 +254,42 @@ public class PatrolAI : EnemyAI {
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (EnemyState == EnemyState.Patrol)
+        if (EnemyState != EnemyState.Track)
         {
-            NewPatrolLocation = true;
+            if (EnemyState == EnemyState.Patrol)
+            {
+                NewPatrolLocation = true;
+            }
+            if (EnemyState == EnemyState.Alert)
+            {
+                NewPatrolLocation = true;
+            }
         }
-        if (EnemyState == EnemyState.Alert)
+    }
+
+    public void TrackingUpdate()
+    {
+        if (EnemyState == EnemyState.Track && EnemyStats.TrackingCountdown >= 0)
         {
-            NewPatrolLocation = true;
+            backTrackCounter += Time.deltaTime;
+            if (backTrackCounter >= trackRate)
+            {
+                PatrolRoute.Add(PlayerObject.transform.position);
+
+                if (PatrolRoute.Count > maxBackTrack)
+                {
+                    PatrolRoute.RemoveAt(0);
+                }
+
+                backTrackCounter = 0;
+            }
+        }
+
+        if (EnemyState == EnemyState.Track && EnemyStats.TrackingCountdown < 0)
+        {
+            EnemyState = EnemyState.Alert;
+            InitialisePatrolRoute();
+            MovementToPosition();
         }
     }
 }

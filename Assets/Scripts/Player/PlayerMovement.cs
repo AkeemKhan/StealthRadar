@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Movement()
     {
-        transform.position = Vector2.MoveTowards(transform.position, ClickPosition, 2 * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, ClickPosition, PlayerStatistics.Speed * Time.deltaTime);
     }
 
     public void GetRotationPosition()

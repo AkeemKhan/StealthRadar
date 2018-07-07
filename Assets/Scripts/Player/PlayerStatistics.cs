@@ -65,7 +65,7 @@ public class PlayerStatistics
         CurrentStealthStreak = 0;
         CurrentGameTime = TimeInAlert = 0;
         InAlertPhase = false;
-        MaxSpeed = Speed = 2;
+        MaxSpeed = Speed = 4;
     }
 
     public static void ClearFloor()
