@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4191366078412490}
   - component: {fileID: 212603831986402092}
+  - component: {fileID: 114172625429449968}
   m_Layer: 0
   m_Name: PlayerTrack
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114172625429449968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1893500113021616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b429f661359ca4c8253585f26b5fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 2
 --- !u!212 &212603831986402092
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -76,7 +89,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d49ec32bce89a9c4daf1e00659ed0a64, type: 3}
-  m_Color: {r: 0.78431374, g: 0.7396764, b: 0.3882353, a: 0.3137255}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.18039216}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
