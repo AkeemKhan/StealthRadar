@@ -27,8 +27,7 @@ namespace Assets.Scripts.Utilities
         Room[,] Rooms;
         List<Vector2> TakenPositions = new List<Vector2>();
         int GridSizeX, GridSizeY = 20, NumberOfRooms = 10;
-        
-        
+                
         void Start()
         {
             LoadTemplates();
@@ -224,6 +223,11 @@ namespace Assets.Scripts.Utilities
                 }
             }
 
+            Designer();
+        }   
+        
+        private void Designer()
+        {
             PlayerSpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.PLAYER_SPAWN_TAG)
                 .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
 
@@ -240,7 +244,8 @@ namespace Assets.Scripts.Utilities
                 EnemySpawnPositions.Remove(position);
             }
 
-            
-        }        
+            var PotentialExits = GameObject.FindGameObjectsWithTag(EntityConstants.EXIT_TAG);
+            PotentialExits[UnityEngine.Random.Range(0, PotentialExits.Length - 1)].GetComponent<ActiveExit>().SetAsExit();
+        }
     }
 }

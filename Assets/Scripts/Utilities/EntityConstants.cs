@@ -12,6 +12,6 @@ namespace Assets.Scripts.Utilities
         public const string WALL_TAG = "Wall";
         public const string PLAYER_SPAWN_TAG = "PlayerSpawn";
         public const string ENEMY_SPAWN_TAG = "EnemySpawn";
-
+        public const string EXIT_TAG = "Exit";
     }
 }

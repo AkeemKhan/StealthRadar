@@ -140,6 +140,8 @@ MonoBehaviour:
   GunOffset: {fileID: 1396620063145126}
   IsInTargetSight: 0
   NewPatrolLocation: 1
+  trackingPrint: {fileID: 1893500113021616, guid: abbe70d016c7cbb40b4e7fec642caebd,
+    type: 2}
   BackTracker: []
   trackRate: 0.1
   maxBackTrack: 50
