@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PatrolAI : EnemyAI {
 
@@ -59,9 +60,9 @@ public class PatrolAI : EnemyAI {
 
     public override void AIUpdate()
     {
-        PlayerPosition = PlayerObject.transform.position;
         if (EnemyState != EnemyState.Disabled)
         {
+            PlayerPosition = PlayerObject.transform.position;
             if (EnemyStats.FireCooldown < EnemyStats.FireRate)
                 EnemyStats.FireCooldown += Time.deltaTime;
 
@@ -290,6 +291,18 @@ public class PatrolAI : EnemyAI {
         //    Debug.Log("WALL COLLISION");
         //    PatrolRoute.Remove(PatrolRoute[0]);
         //}
+
+        if (coll.transform.tag == EntityConstants.PLAYER_TAG)
+        {
+            Debug.Log("WALL COLLISION");
+            if (FieldOfVisionController.IsInSight && EnemyState != EnemyState.Disabled)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            else
+            {
+                KilledByPlayer();
+            }
+
+        }
     }
 
     void OnCollisionStay2D(Collision2D col)
@@ -331,5 +344,16 @@ public class PatrolAI : EnemyAI {
             //    backTrackCounter = 0;
             //}
         }                
+    }
+
+    public void KilledByPlayer()
+    {
+        EnemyState = EnemyState.Disabled;
+        transform.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
+        transform.GetComponent<SpriteRenderer>().enabled = true;
+        transform.GetComponent<SpriteRenderer>().renderingLayerMask = 1;
+        gameObject.GetComponent<Collider2D>().enabled = false;        
+        Destroy(gameObject.GetComponent<Rigidbody2D>());   
     }
 }
