@@ -286,11 +286,10 @@ public class PatrolAI : EnemyAI {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        //if (coll.transform.tag == EntityConstants.WALL_TAG)
-        //{
-        //    Debug.Log("WALL COLLISION");
-        //    PatrolRoute.Remove(PatrolRoute[0]);
-        //}
+        if (coll.transform.tag == EntityConstants.WALL_TAG)
+        {
+            Clipped = true;
+        }
 
         if (coll.transform.tag == EntityConstants.PLAYER_TAG)
         {
@@ -304,6 +303,13 @@ public class PatrolAI : EnemyAI {
 
         }
     }
+
+    void OnCollisionExit()
+    {
+        Clipped = false;
+    }
+
+    public bool Clipped;
 
     void OnCollisionStay2D(Collision2D col)
     {
@@ -335,7 +341,7 @@ public class PatrolAI : EnemyAI {
 
             PatrolRoute.Add(PlayerObject.transform.position);
             Instantiate(trackingPrint, new Vector3(PlayerPosition.x, PlayerPosition.y), Quaternion.identity);
-            Patrol();
+            //if (Clipped) Patrol();
                 //if (PatrolRoute.Count > maxBackTrack)
                 //{
                 //    PatrolRoute.RemoveAt(0);
@@ -352,7 +358,7 @@ public class PatrolAI : EnemyAI {
         transform.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
         transform.GetComponent<SpriteRenderer>().enabled = true;
-        transform.GetComponent<SpriteRenderer>().renderingLayerMask = 1;
+        transform.GetComponent<SpriteRenderer>().renderingLayerMask = 0;
         gameObject.GetComponent<Collider2D>().enabled = false;        
         Destroy(gameObject.GetComponent<Rigidbody2D>());   
     }
