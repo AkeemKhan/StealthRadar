@@ -25,8 +25,6 @@ public class PatrolAI : EnemyAI {
 	void Update ()
     {
         AIUpdate();
-
-
     }
 
     public override void Initialise()

@@ -19,7 +19,7 @@ namespace Assets.Scripts.Enemy.Stats
             PatrolSpeed = 0.2f;
             FovAngleStrong = 90;
             FovAngleWeak = 30;
-            DetectRangeStrong = 10;
+            DetectRangeStrong = 3;
             RaycastOffset = 0;
             PatrolRange = 5;
             AlertPhaseDuration = 60;

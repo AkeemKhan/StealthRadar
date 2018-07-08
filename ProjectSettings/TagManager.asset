@@ -8,6 +8,8 @@ TagManager:
   - Victory
   - Exit
   - Enemy
+  - PlayerSpawn
+  - EnemySpawn
   layers:
   - Default
   - TransparentFX

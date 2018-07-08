@@ -36,7 +36,6 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
         Target = PlayerObject;
         TargetPosition = Target.transform.position;
         FieldOfVisionController.Initialise(PlayerObject, EnemyStats);
-        Debug.Log("Initialise " + FieldOfVisionController == null ? "NULLLLL" : "NOOOO");
     }
 
     public virtual void AIUpdate() { }

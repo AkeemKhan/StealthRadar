@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Utilities;
 
 public class FollowObject : MonoBehaviour {
 
-    public GameObject target;
+    public GameObject Target;
 
-	// Use this for initialization
-	void Start ()
+    void Start ()
     {
-	    target = GameObject.Find("Player");
-	}
+        Target = GameObject.FindGameObjectWithTag(EntityConstants.PLAYER_TAG);
+    }
 	
-	// Update is called once per frame
 	void Update ()
     {
-        transform.position = target.transform.position - new Vector3(0,0,1);
+        if (Target == null)
+            Target = GameObject.FindGameObjectWithTag(EntityConstants.PLAYER_TAG);
+        else
+            transform.position = Target.transform.position - new Vector3(0,0,1);
 	}
 }

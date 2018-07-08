@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Utilities
 {
     public class LevelGeneration : MonoBehaviour
     {
+        // Temporary Game Builder
+        public int EnemyCount = 25;
+        public GameObject Player;
+        public GameObject Enemy;
+        public List<Vector2> EnemySpawnPositions;
+        public List<Vector2> PlayerSpawnPositions;
+
         public GameObject RoomObject;
         public GameObject FilledSpace;
+        public List<GameObject> Templates;
 
         public int CountFromZeroY;
         public int CountFromZeroX;
@@ -17,11 +26,13 @@ namespace Assets.Scripts.Utilities
         Vector2 WorldSize = new Vector2(4, 4);
         Room[,] Rooms;
         List<Vector2> TakenPositions = new List<Vector2>();
-        int GridSizeX, GridSizeY = 20, NumberOfRooms = 20;
+        int GridSizeX, GridSizeY = 20, NumberOfRooms = 10;
         
         
         void Start()
         {
+            LoadTemplates();
+
             if (NumberOfRooms >= (WorldSize.x * 2) * (WorldSize.y * 2))
             {
                 NumberOfRooms = Mathf.RoundToInt((WorldSize.x * 2) * (WorldSize.y * 2));
@@ -34,17 +45,18 @@ namespace Assets.Scripts.Utilities
             DrawMap(); //instantiates objects to make up a map
         }
 
+        public void LoadTemplates()
+        {
+            UnityEngine.Object[] data = Resources.LoadAll<GameObject>("Templates");
+            Debug.Log("Count --- " + data.Length);
+
+            Templates = data.Select(p => p as GameObject).ToList();
+            Debug.Log("Count --- " + data.Length);
+        }
+
         public void CreateRooms()
         {
             Rooms = new Room[GridSizeX * 2, GridSizeY * 2];
-
-            //for (int i = 0; i < GridSizeX * 2; i++)
-            //{
-            //    for(int j = 0; j < GridSizeY * 2; j++)
-            //    {
-            //        Rooms[i, j] = new Room(new Vector2(GridSizeX * i * 2, GridSizeY * j * 2), 2);
-            //    }
-            //}
 
             Rooms[GridSizeX, GridSizeY] = new Room(Vector2.zero, 1);
             TakenPositions.Insert(0, Vector2.zero);
@@ -187,7 +199,9 @@ namespace Assets.Scripts.Utilities
 
         public void DrawMap()
         {
-            for(int i = 0; i < GridSizeX * 2; i++)
+            int templateCount = Templates.Count;
+            
+            for (int i = 0; i < GridSizeX * 2; i++)
             {
                 for(int j = 0; j < GridSizeY * 2; j++)
                 {
@@ -197,17 +211,36 @@ namespace Assets.Scripts.Utilities
                     }
                     else
                     {
+                        GameObject template = Templates[UnityEngine.Random.Range(0, templateCount)];
+
                         Vector2 drawPos = Rooms[i, j].GridPosition;
                        
-                        Debug.Log(drawPos);
                         drawPos.x *= 20;
                         drawPos.y *= 10;
 
                         // Instantiate the Room
-                        Instantiate(RoomObject, new Vector3(drawPos.x, drawPos.y), Quaternion.identity);
+                        Instantiate(template, new Vector3(drawPos.x, drawPos.y), Quaternion.identity);
                     }
                 }
             }
-        }
+
+            PlayerSpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.PLAYER_SPAWN_TAG)
+                .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
+
+            Vector2 playerPosition = PlayerSpawnPositions[UnityEngine.Random.Range(0, PlayerSpawnPositions.Count - 1)];
+            Instantiate(Player, new Vector3(playerPosition.x, playerPosition.y), Quaternion.identity);
+
+            EnemySpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.ENEMY_SPAWN_TAG)
+                .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
+
+            for (int i = 0; i < EnemyCount; i++)
+            {
+                Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
+                Instantiate(Enemy, new Vector3(position.x, position.y), Quaternion.identity);
+                EnemySpawnPositions.Remove(position);
+            }
+
+            
+        }        
     }
 }
