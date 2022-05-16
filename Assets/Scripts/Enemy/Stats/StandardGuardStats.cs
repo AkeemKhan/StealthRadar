@@ -14,12 +14,12 @@ namespace Assets.Scripts.Enemy.Stats
 
         public override void InitialiseStats()
         {
-            PersueSpeed = 1.9f;
-            AlertSpeed = 1f;
-            PatrolSpeed = 0.2f;
-            FovAngleStrong = 150;
+            PersueSpeed = 1.5f;
+            AlertSpeed = 1.5f;
+            PatrolSpeed = 1f;
+            FovAngleStrong = 180;
             FovAngleWeak = 30;
-            DetectRangeStrong = 4;
+            DetectRangeStrong = 5;
             RaycastOffset = 0;
             PatrolRange = 5;
             AlertPhaseDuration = 60;

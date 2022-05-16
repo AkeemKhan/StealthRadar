@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PathFinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Assets.Scripts.Utilities
     public class LevelGeneration : MonoBehaviour
     {
         // Temporary Game Builder
-        public int EnemyCount = 25;
+        public int EnemyCount = 100;
         public GameObject Player;
         public GameObject Enemy;
         public List<Vector2> EnemySpawnPositions;
@@ -20,28 +21,45 @@ namespace Assets.Scripts.Utilities
         public GameObject FilledSpace;
         public List<GameObject> Templates;
 
+        public static Dictionary<Node, int> NodeIdMap;
+        public static Dictionary<int, Node> IdNodeMap;
+        public static Dictionary<Vector3, Node> VectorNodeMap;
+        public static Dictionary<Node, Vector3> NodeVectorMap;       
+
+        public static Dictionary<int, GameObject> IdNodeMapGO;
+
+        public static Navigation Navigation;
+
         public int CountFromZeroY;
         public int CountFromZeroX;
+
+        public bool LoadTheTemplates;
+        public bool GenerateLevel;
 
         Vector2 WorldSize = new Vector2(4, 4);
         Room[,] Rooms;
         List<Vector2> TakenPositions = new List<Vector2>();
-        int GridSizeX, GridSizeY = 20, NumberOfRooms = 10;
+        int GridSizeX, GridSizeY = 3, NumberOfRooms = 3;
                 
         void Start()
         {
-            LoadTemplates();
+            if (LoadTheTemplates)
+                LoadTemplates();
 
-            if (NumberOfRooms >= (WorldSize.x * 2) * (WorldSize.y * 2))
+            if (GenerateLevel)
             {
-                NumberOfRooms = Mathf.RoundToInt((WorldSize.x * 2) * (WorldSize.y * 2));
+                if (NumberOfRooms >= (WorldSize.x * 2) * (WorldSize.y * 2))
+                {
+                    NumberOfRooms = Mathf.RoundToInt((WorldSize.x * 2) * (WorldSize.y * 2));
+                }
+
+                GridSizeX = Mathf.RoundToInt(WorldSize.x);
+                GridSizeY = Mathf.RoundToInt(WorldSize.y);
+
+                CreateRooms();                        
+                DrawMap(); //instantiates objects to make up a map
             }
-
-            GridSizeX = Mathf.RoundToInt(WorldSize.x);
-            GridSizeY = Mathf.RoundToInt(WorldSize.y);
-
-            CreateRooms();                        
-            DrawMap(); //instantiates objects to make up a map
+            BuildNavidationGraph();
         }
 
         public void LoadTemplates()
@@ -239,13 +257,91 @@ namespace Assets.Scripts.Utilities
 
             for (int i = 0; i < EnemyCount; i++)
             {
-                Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
-                Instantiate(Enemy, new Vector3(position.x, position.y), Quaternion.identity);
-                EnemySpawnPositions.Remove(position);
+                if (EnemySpawnPositions.Count > 0)
+                {
+                    Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
+                    Instantiate(Enemy, new Vector3(position.x, position.y), Quaternion.identity);
+                    EnemySpawnPositions.Remove(position);
+                }
             }
 
             var PotentialExits = GameObject.FindGameObjectsWithTag(EntityConstants.EXIT_TAG);
             PotentialExits[UnityEngine.Random.Range(0, PotentialExits.Length - 1)].GetComponent<ActiveExit>().SetAsExit();
+        }
+
+        public void BuildNavidationGraph()
+        {
+            var nodePositions = GameObject.FindGameObjectsWithTag(EntityConstants.PFNODE_TAG);
+            var pfNodes = new List<Node>();
+            
+            int id = 0;
+
+            foreach (var nodePosition in nodePositions)
+            {
+                pfNodes.Add(new Node
+                {
+                    Id = id,
+                    X = nodePosition.transform.position.x,
+                    Y = nodePosition.transform.position.y,
+                });
+                id++;
+            }
+
+            Navigation = new Navigation();
+            var edges = new List<Edge>();
+
+            NodeIdMap = new Dictionary<Node, int>();
+            IdNodeMap = new Dictionary<int, Node>();
+            VectorNodeMap = new Dictionary<Vector3, Node>();
+            NodeVectorMap = new Dictionary<Node, Vector3>();
+
+            int i = 0;
+            foreach (var pfNode in pfNodes)
+            {
+                NodeIdMap.Add(pfNode, i);
+                IdNodeMap.Add(i, pfNode);
+
+                VectorNodeMap.Add(nodePositions[pfNode.Id].transform.position, pfNode);
+                NodeVectorMap.Add(pfNode, nodePositions[pfNode.Id].transform.position);
+                
+                i++;
+            }
+
+            int skipped = 0;
+            int potential = 0;
+
+            foreach (var pfNode in pfNodes)
+            {
+                foreach (var pfNode2 in pfNodes)
+                {
+                    if (pfNode == pfNode2)
+                        continue;
+
+                    var x1 = pfNode.X;
+                    var x2 = pfNode2.X;
+                    var y1 = pfNode.Y;
+                    var y2 = pfNode2.Y;
+
+                    RaycastHit2D hit = Physics2D.Linecast(nodePositions[pfNode.Id].transform.position, nodePositions[pfNode2.Id].transform.position);
+
+                    potential++;
+                    if (hit)
+                    {
+                        if (hit.collider.tag == EntityConstants.WALL_TAG)
+                        {
+                            skipped++;
+                            continue;
+                        }
+                    }
+
+                    var distance = Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
+                    edges.Add(new Edge(NodeIdMap[pfNode], NodeIdMap[pfNode2], distance*distance));                    
+                }
+            }
+
+            Debug.Log($"skipped: {skipped}");
+            Debug.Log($"potential: {potential}");
+            Navigation.BuildGraph(edges);
         }
     }
 }

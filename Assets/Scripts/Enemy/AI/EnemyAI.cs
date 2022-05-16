@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour, IEnemyAI
@@ -8,6 +9,10 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     public GameObject PlayerObject;
     protected GameObject Target;
     public EnemyState EnemyState;
+    public bool EnableDebug = false;
+
+    public GameObject ClosestNode;
+    public GameObject PlayerClosestNode;
 
     [SerializeField]
     public EnemyStats EnemyStats;
@@ -17,7 +22,10 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     public FieldOfVisionController FieldOfVisionController;
 
     public Vector3 PlayerPosition;
-    
+
+    public List<Vector3> NavigationRoute = new List<Vector3>();
+    public List<GameObject> NavigationRouteGameObjects = new List<GameObject>();
+
     void Start ()
     {
 	
@@ -38,12 +46,107 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
         FieldOfVisionController.Initialise(PlayerObject, EnemyStats);
     }
 
+    public void NavigateToRandomNode()
+    {
+        NavigateToPlayer();
+        return;
+
+
+        var closestNode = FindClosestNode();
+
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("PFNode");
+
+        var randomNumber = Random.Range(0, gos.Length - 1);
+        var randomNode = gos[randomNumber];
+
+        Debug.Log(LevelGeneration.VectorNodeMap == null);
+        Debug.Log(LevelGeneration.NodeVectorMap == null);
+        Debug.Log(LevelGeneration.IdNodeMap == null);
+        Debug.Log(LevelGeneration.NodeIdMap == null);
+
+        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.transform.position].Id;
+        int destId = LevelGeneration.VectorNodeMap[randomNode.transform.transform.position].Id;
+
+        var path = LevelGeneration.Navigation.FindPath(startId, destId);
+        //NavigationRouteGameObjects = path.Select(p => LevelGeneration.IdNodeMapGO[p]).ToList();
+        NavigationRoute = path.Select(p => LevelGeneration.NodeVectorMap[LevelGeneration.IdNodeMap[p]]).ToList();
+    }
+
+    public void NavigateToPlayer()
+    {
+        var closestNode = FindClosestNode();
+        var playerClosestNode = FindPlayerClosestNode();
+        
+        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.transform.position].Id;
+        int destId = LevelGeneration.VectorNodeMap[playerClosestNode.transform.transform.position].Id;
+
+        var path = LevelGeneration.Navigation.FindPath(startId, destId);
+
+        NavigationRoute = path.Select(p => LevelGeneration.NodeVectorMap[LevelGeneration.IdNodeMap[p]]).ToList();
+        NavigationRoute.Add(PlayerPosition);
+    }
+
+    public GameObject FindClosestNode()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("PFNode");
+        GameObject closest = null;
+
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                var hit = Physics2D.Linecast(this.transform.position, go.transform.position);
+                
+                if (hit.collider.tag != EntityConstants.WALL_TAG)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
+
+            }
+        }
+        ClosestNode = closest;
+        return closest;
+    }
+
+    public GameObject FindPlayerClosestNode()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("PFNode");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = PlayerPosition;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                var hit = Physics2D.Linecast(this.transform.position, go.transform.position);
+
+                if (hit.collider.tag != EntityConstants.WALL_TAG)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
+            }
+        }
+
+        PlayerClosestNode = closest;
+        return closest;
+    }
+
     public virtual void AIUpdate() { }
 
     public virtual void AIStateUpdate() { }
 
     public virtual void FieldOfVisionUpdate() { }
-
 }
 
 public enum EnemyState
@@ -53,6 +156,7 @@ public enum EnemyState
     Persue,
     Shoot,
     Track,
+    StayOnPath,
     Disabled
 }
 
