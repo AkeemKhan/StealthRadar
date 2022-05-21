@@ -11,7 +11,7 @@ namespace Assets.Scripts.Utilities
     public class LevelGeneration : MonoBehaviour
     {
         // Temporary Game Builder
-        public int EnemyCount = 100;
+        public int EnemyCount = 10;
         public GameObject Player;
         public GameObject Enemy;
         public List<Vector2> EnemySpawnPositions;
@@ -246,6 +246,8 @@ namespace Assets.Scripts.Utilities
         
         private void Designer()
         {
+            EnemyCount = PlayerStatistics.EnemyCount;
+
             PlayerSpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.PLAYER_SPAWN_TAG)
                 .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
 
@@ -261,7 +263,7 @@ namespace Assets.Scripts.Utilities
                 {
                     Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
                     Instantiate(Enemy, new Vector3(position.x, position.y), Quaternion.identity);
-                    EnemySpawnPositions.Remove(position);
+                    // EnemySpawnPositions.Remove(position);
                 }
             }
 

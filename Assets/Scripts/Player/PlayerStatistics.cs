@@ -39,6 +39,7 @@ public class PlayerStatistics
     public static float CurrentAlertTime;
 
     public static int Level = 1;
+    public static int EnemyCount = 10;
 
     // Accessors
     public static bool CurrentFloorCleared
@@ -79,6 +80,7 @@ public class PlayerStatistics
         CurrentGameTime = 0;
         // CurrentFloorCleared = true;
         Level++;
+        EnemyCount++;
     }
 
     public static void DamagePlayer(float damage)

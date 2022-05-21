@@ -350,7 +350,7 @@ public class PatrolAI : EnemyAI {
         Destroy(gameObject.GetComponent<Rigidbody2D>());
 
         PlayerStatistics.EnemiesKilled++;
-        PlayerStatistics.Speed *= 1.03f;
+        PlayerStatistics.Speed *= 1.05f;
         PlayerStatistics.MaxSpeed = PlayerStatistics.Speed;
     }
 }
