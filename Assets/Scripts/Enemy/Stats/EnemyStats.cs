@@ -47,12 +47,12 @@ public abstract class EnemyStats : MonoBehaviour
         AlertRate = 10;
         AlertRange = 0;
         CamaraRotateRate = 0;
+
         Speed = 2;
         FireCooldown = 0;
         AlertPhaseCountdown = 0;
         AlertCounter = 0;
     }
-
 }
 
 public interface IStats

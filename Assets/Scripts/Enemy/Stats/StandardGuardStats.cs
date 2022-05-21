@@ -14,12 +14,19 @@ namespace Assets.Scripts.Enemy.Stats
 
         public override void InitialiseStats()
         {
-            PersueSpeed = 1.5f;
-            AlertSpeed = 1.5f;
-            PatrolSpeed = 1f;
-            FovAngleStrong = 180;
+            PersueSpeed = 1.8f;
+            AlertSpeed = 1.7f;
+            PatrolSpeed = 1.5f;
+            FovAngleStrong = 160;
+            DetectRangeStrong = 2;
+
+            //PersueSpeed = 1.8f * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 1.8f;
+            //AlertSpeed = 1.7f * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 1.7f;
+            //PatrolSpeed = 1.5f * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 1.5f;
+            //FovAngleStrong = 160 * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 160;
+            //DetectRangeStrong = 2 * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 2f;
+
             FovAngleWeak = 30;
-            DetectRangeStrong = 5;
             RaycastOffset = 0;
             PatrolRange = 5;
             AlertPhaseDuration = 60;
@@ -32,8 +39,7 @@ namespace Assets.Scripts.Enemy.Stats
             FireCooldown = 0;
             AlertPhaseCountdown = 0;
             AlertCounter = 0;
-            TrackingTime = 5;
-        
+            TrackingTime = 5;        
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Assets.Scripts.Utilities
         Vector2 WorldSize = new Vector2(4, 4);
         Room[,] Rooms;
         List<Vector2> TakenPositions = new List<Vector2>();
-        int GridSizeX, GridSizeY = 3, NumberOfRooms = 3;
+        int GridSizeX, GridSizeY = 10, NumberOfRooms = 10;
                 
         void Start()
         {
@@ -301,10 +301,14 @@ namespace Assets.Scripts.Utilities
                 NodeIdMap.Add(pfNode, i);
                 IdNodeMap.Add(i, pfNode);
 
-                VectorNodeMap.Add(nodePositions[pfNode.Id].transform.position, pfNode);
-                NodeVectorMap.Add(pfNode, nodePositions[pfNode.Id].transform.position);
+                if (!VectorNodeMap.ContainsKey(nodePositions[pfNode.Id].transform.position))
+                    VectorNodeMap.Add(nodePositions[pfNode.Id].transform.position, pfNode);
+
+                if (!NodeVectorMap.ContainsKey(pfNode))
+                    NodeVectorMap.Add(pfNode, nodePositions[pfNode.Id].transform.position);
                 
                 i++;
+                Debug.Log($"i = {i}");
             }
 
             int skipped = 0;
@@ -334,7 +338,7 @@ namespace Assets.Scripts.Utilities
                         }
                     }
 
-                    var distance = Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
+                    var distance = Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));                    
                     edges.Add(new Edge(NodeIdMap[pfNode], NodeIdMap[pfNode2], distance*distance));                    
                 }
             }

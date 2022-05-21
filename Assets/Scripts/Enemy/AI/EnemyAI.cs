@@ -24,7 +24,10 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     public Vector3 PlayerPosition;
 
     public List<Vector3> NavigationRoute = new List<Vector3>();
+    public List<Vector3> NavigationRouteHistory = new List<Vector3>();
     public List<GameObject> NavigationRouteGameObjects = new List<GameObject>();
+
+    public MovementTarget MovementTarget;
 
     void Start ()
     {
@@ -48,9 +51,8 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
 
     public void NavigateToRandomNode()
     {
-        NavigateToPlayer();
-        return;
-
+        //NavigateToPlayer();
+        //    return;
 
         var closestNode = FindClosestNode();
 
@@ -60,13 +62,8 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
         var randomNumber = Random.Range(0, gos.Length - 1);
         var randomNode = gos[randomNumber];
 
-        Debug.Log(LevelGeneration.VectorNodeMap == null);
-        Debug.Log(LevelGeneration.NodeVectorMap == null);
-        Debug.Log(LevelGeneration.IdNodeMap == null);
-        Debug.Log(LevelGeneration.NodeIdMap == null);
-
-        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.transform.position].Id;
-        int destId = LevelGeneration.VectorNodeMap[randomNode.transform.transform.position].Id;
+        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.position].Id;
+        int destId = LevelGeneration.VectorNodeMap[randomNode.transform.position].Id;
 
         var path = LevelGeneration.Navigation.FindPath(startId, destId);
         //NavigationRouteGameObjects = path.Select(p => LevelGeneration.IdNodeMapGO[p]).ToList();
@@ -77,9 +74,9 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     {
         var closestNode = FindClosestNode();
         var playerClosestNode = FindPlayerClosestNode();
-        
-        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.transform.position].Id;
-        int destId = LevelGeneration.VectorNodeMap[playerClosestNode.transform.transform.position].Id;
+
+        int startId = LevelGeneration.VectorNodeMap[closestNode.transform.position].Id;
+        int destId = LevelGeneration.VectorNodeMap[playerClosestNode.transform.position].Id;
 
         var path = LevelGeneration.Navigation.FindPath(startId, destId);
 
@@ -87,16 +84,21 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
         NavigationRoute.Add(PlayerPosition);
     }
 
-    public GameObject FindClosestNode()
+    public GameObject FindClosestNode(List<GameObject> ignore = null)
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("PFNode");
         GameObject closest = null;
-
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
         foreach (GameObject go in gos)
         {
+            if (ignore != null && ignore.Contains(go))
+            {
+                Debug.Log("IGNORING");
+                continue;
+            }
+
             Vector3 diff = go.transform.position - position;
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)
@@ -158,6 +160,12 @@ public enum EnemyState
     Track,
     StayOnPath,
     Disabled
+}
+
+public enum MovementTarget
+{
+    Player,
+    Location
 }
 
 public interface IEnemyAI

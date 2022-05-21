@@ -24,7 +24,10 @@ public class ActiveExit : MonoBehaviour
         if (collider.tag == EntityConstants.PLAYER_TAG)
         {
             if (IsExit)
+            {
+                PlayerStatistics.ClearFloor();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
     }
 

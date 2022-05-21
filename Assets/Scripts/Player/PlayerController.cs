@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject PlayerObject;
-    public PlayerMovement PlayerMovement;
+    public PlayerMovement PlayerMovement;    
    
 	// Use this for initialization
 	void Start ()

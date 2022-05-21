@@ -38,6 +38,8 @@ public class PlayerStatistics
     public static float CurrentGameTime;
     public static float CurrentAlertTime;
 
+    public static int Level = 1;
+
     // Accessors
     public static bool CurrentFloorCleared
     {
@@ -59,20 +61,24 @@ public class PlayerStatistics
     // Methods
     public static void ResetStats()
     {
-        Health = Stamina = MaxHealth = MaxStamina = 100;
-        FloorsCleared = RoomsFound = Detected = PrisonersRescued =
-        SecretRoomsFound = KeyCardsFound = EnemiesKilled = HighestStealthStreak =
-        CurrentStealthStreak = 0;
-        CurrentGameTime = TimeInAlert = 0;
-        InAlertPhase = false;
-        MaxSpeed = Speed = 2;
+        if (Level == 1)
+        {
+            Health = Stamina = MaxHealth = MaxStamina = 100;
+            FloorsCleared = RoomsFound = Detected = PrisonersRescued =
+            SecretRoomsFound = KeyCardsFound = EnemiesKilled = HighestStealthStreak =
+            CurrentStealthStreak = 0;
+            CurrentGameTime = TimeInAlert = 0;
+            InAlertPhase = false;
+            MaxSpeed = Speed = 2;
+        }
     }
 
     public static void ClearFloor()
     {
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
-        CurrentFloorCleared = true;
+        // CurrentFloorCleared = true;
+        Level++;
     }
 
     public static void DamagePlayer(float damage)
