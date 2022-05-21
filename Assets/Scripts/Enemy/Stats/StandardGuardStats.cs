@@ -17,8 +17,8 @@ namespace Assets.Scripts.Enemy.Stats
             PersueSpeed = 1.8f;
             AlertSpeed = 1.7f;
             PatrolSpeed = 1.5f;
-            FovAngleStrong = 160;
-            DetectRangeStrong = 2;
+            FovAngleStrong = 180;
+            DetectRangeStrong = 10;
 
             //PersueSpeed = 1.8f * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 1.8f;
             //AlertSpeed = 1.7f * PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.1f, PlayerStatistics.Level)) : 1.7f;

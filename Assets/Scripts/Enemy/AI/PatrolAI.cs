@@ -283,10 +283,10 @@ public class PatrolAI : EnemyAI {
     {
         //Debug.Log("COLLIDING LOTS HERERERERE");
 
-        //if (CollisionCleanupRate < 5)
-        //    return;
+        if (CollisionCleanupRate < 1)
+            return;
 
-        //CollisionCleanupRate = 0;
+        CollisionCleanupRate = 0;
 
         NewMovementLocation = true;
 
