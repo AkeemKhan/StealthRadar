@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject Player;
     public PlayerController PlayerController;
     public Vector3 ClickPosition;
+    public Vector3 PreviousPosition;
 
     public float PlayerSpeed
     {
@@ -17,14 +18,15 @@ public class PlayerMovement : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        ClickPosition = Player.transform.position;   	
-	}
+        ClickPosition = Player.transform.position;
+        PreviousPosition = Player.transform.position;
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
         SetMoveToPoint();
-        Movement();
+        Movement();        
     }
 
     public void SetMoveToPoint()
@@ -46,7 +48,20 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Movement()
     {
-        transform.position = Vector2.MoveTowards(transform.position, ClickPosition, PlayerStatistics.Speed * Time.deltaTime);
+        if (PreviousPosition != Player.transform.position)
+        {
+            var newStamina = PlayerStatistics.Stamina - Time.deltaTime;
+            PlayerStatistics.Stamina = newStamina <= 0 ? 0 : newStamina;
+        }
+        else
+        {
+            var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f;
+            PlayerStatistics.Stamina = newStamina >= PlayerStatistics.MaxStamina ? PlayerStatistics.MaxStamina : newStamina;
+        }
+
+        PreviousPosition = Player.transform.position;
+        var currentSpeed = PlayerStatistics.Stamina > 0 ? PlayerStatistics.Speed : PlayerStatistics.Speed * 0.75f;
+        transform.position = Vector2.MoveTowards(transform.position, ClickPosition, currentSpeed * Time.deltaTime);        
     }
 
     public void GetRotationPosition()

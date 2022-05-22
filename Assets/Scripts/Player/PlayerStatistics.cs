@@ -11,7 +11,7 @@ public class PlayerStatistics
     public static float Health;
     public static float Stamina;
     public static float MaxSpeed;
-    public static float Speed;
+    public static float Speed;    
     public static float RotateSpeed;
     public static float Movex;
     public static float Movey;
@@ -29,7 +29,6 @@ public class PlayerStatistics
     public static int PrisonersRescued;
     public static int SecretRoomsFound;
     public static int KeyCardsFound;
-    public static int EnemiesKilled;
     public static int HighestStealthStreak;
     public static float TimeInAlert;
 
@@ -37,9 +36,15 @@ public class PlayerStatistics
     public static int CurrentStealthStreak;
     public static float CurrentGameTime;
     public static float CurrentAlertTime;
+    public static int Detections = 0;    
 
     public static int Level = 1;
     public static int EnemyCount = 10;
+    public static int EnemiesKilled;
+    public static int EnemiesKilledThisRound;
+
+    public static int PlayerLevel = 1;
+    public static int PlayerExp = 0;
 
     // Accessors
     public static bool CurrentFloorCleared
@@ -58,27 +63,59 @@ public class PlayerStatistics
         get { return MaxSpeed; }
     }
     
-
-    // Methods
     public static void ResetStats()
     {
         if (Level == 1)
         {
-            Health = Stamina = MaxHealth = MaxStamina = 100;
+            Health = MaxHealth = 100;
+            Stamina = MaxStamina = 20;
             FloorsCleared = RoomsFound = Detected = PrisonersRescued =
-            SecretRoomsFound = KeyCardsFound = EnemiesKilled = HighestStealthStreak =
-            CurrentStealthStreak = 0;
-            CurrentGameTime = TimeInAlert = 0;
+            SecretRoomsFound = KeyCardsFound = EnemiesKilled = HighestStealthStreak = 0;            
             InAlertPhase = false;
             MaxSpeed = Speed = 2;
         }
+        Detections = 0;
+        Stamina = MaxStamina;
+        Health = MaxHealth;
+    }
+
+    public static void IncreaseExp(int addExp)
+    {
+        PlayerExp += addExp;
+        
+        while (PlayerExp >= 100)
+        {
+            PlayerExp -= 100; 
+            LevelUp();
+        }
+
+    }
+
+    public static void LevelUp()
+    {
+        PlayerLevel++;
+        MaxSpeed *= 1.05f;
+        Speed = PlayerStatistics.MaxSpeed;
+        MaxHealth += Random.Range(5, 15);
+        MaxStamina += Random.Range(2, 5);
+
+        Stamina = MaxStamina;
+        Health = MaxHealth;
     }
 
     public static void ClearFloor()
     {
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
-        // CurrentFloorCleared = true;
+
+        var completionBonus = 50;
+        var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;
+        var enemyKilledBonus = EnemiesKilledThisRound * 5;
+        var stealthKillStreakBonus = System.Math.Pow(PlayerStatistics.CurrentStealthStreak,2);
+        var totalBonus = completionBonus + undetectedBonus + enemyKilledBonus + stealthKillStreakBonus;
+
+        IncreaseExp((int)totalBonus);
+
         Level++;
         EnemyCount++;
     }

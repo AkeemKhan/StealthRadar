@@ -25,6 +25,12 @@ public class PatrolAI : EnemyAI {
     public List<GameObject> LastCollisionNodes = new List<GameObject>();
     public float CollisionCleanupRate = 0f;
 
+    public float PreventMove = 0f;
+    public int RequestNewLocationCount = 0;
+    public float RequestNewLocationRefresh = 0;
+
+    public bool DetectedPlayer = false;
+
     void Start ()
     {
         Initialise();
@@ -86,6 +92,19 @@ public class PatrolAI : EnemyAI {
             if (CollisionCleanupRate < 1)
                 CollisionCleanupRate += Time.deltaTime;
 
+            if (PreventMove >= 0)
+                PreventMove -= Time.deltaTime;
+            else
+                RequestNewLocationCount = 0;
+
+            if (RequestNewLocationRefresh >= 0)
+                RequestNewLocationRefresh -= Time.deltaTime;
+            else
+            {
+                RequestNewLocationRefresh = 5;
+                RequestNewLocationCount = 0;
+            }
+
             FieldOfVisionUpdate();
             AIStateUpdate();
         }
@@ -105,7 +124,8 @@ public class PatrolAI : EnemyAI {
             }
         }
 
-        MovementToPosition();
+        if (!(PreventMove > 0))
+            MovementToPosition();
     }
 
     public override void FieldOfVisionUpdate()
@@ -122,6 +142,13 @@ public class PatrolAI : EnemyAI {
 
                     Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
                     IsInTargetSight = true;
+
+                    if (!DetectedPlayer)
+                    {
+                        DetectedPlayer = true;
+                        PlayerStatistics.Detections++;
+                    }
+
                     EnemyStats.Speed = EnemyStats.PersueSpeed;
                     TargetPosition = PlayerPosition;
                     SetAlert();
@@ -212,6 +239,13 @@ public class PatrolAI : EnemyAI {
 
             Debug.Log("NEW LOCATION");
 
+            // Bug - AI gets stuck, just make them OP when stuck
+            if (RequestNewLocationCount > 5)
+            {
+                PreventMove = 100;
+                EnemyStats.FovAngleStrong = 360;
+            }
+
             if (EnemyState  == EnemyState.Alert || EnemyState == EnemyState.Persue)
             {
                 NavigateToPlayer();
@@ -259,7 +293,16 @@ public class PatrolAI : EnemyAI {
         {
             Debug.Log("WALL COLLISION");
             if (FieldOfVisionController.IsInSight && EnemyState != EnemyState.Disabled)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            {
+                PreventMove = 1;
+                PlayerStatistics.Health -= 50;
+
+                if (PlayerStatistics.Health <= 0)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+                }
+            }
             else
             {
                 KilledByPlayer();
@@ -349,8 +392,10 @@ public class PatrolAI : EnemyAI {
         gameObject.GetComponent<Collider2D>().enabled = false;        
         Destroy(gameObject.GetComponent<Rigidbody2D>());
 
-        PlayerStatistics.EnemiesKilled++;
-        PlayerStatistics.Speed *= 1.05f;
-        PlayerStatistics.MaxSpeed = PlayerStatistics.Speed;
+        PlayerStatistics.IncreaseExp(10 + Random.Range(-10, 10));
+        PlayerStatistics.EnemiesKilledThisRound++;
+
+        if (PlayerStatistics.Detections == 0)
+            PlayerStatistics.CurrentStealthStreak++;
     }
 }
