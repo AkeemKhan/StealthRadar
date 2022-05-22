@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour {
     public PlayerController PlayerController;
     public Vector3 ClickPosition;
     public Vector3 PreviousPosition;
+    public Vector3 PreviousDirection;
+
+    public FixedJoystick FixedJoystick;
 
     public float PlayerSpeed
     {
@@ -20,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         ClickPosition = Player.transform.position;
         PreviousPosition = Player.transform.position;
+        FixedJoystick = GameObject.Find("Fixed Joystick").GetComponent<FixedJoystick>();
     }
 	
 	// Update is called once per frame
@@ -31,19 +35,20 @@ public class PlayerMovement : MonoBehaviour {
 
     public void SetMoveToPoint()
     {
-        float move = Input.GetAxis("Fire1");
-        if (move > 0)
-        {
-            ClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            GetRotationPosition();
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                ClickPosition.z = transform.position.z;
-            }
-        }
-        
+        //float move = Input.GetAxis("Fire1");
+        //if (move > 0)
+        //{
+        //    ClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    GetRotationPosition();
+        //    RaycastHit hit;
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        ClickPosition.z = transform.position.z;
+        //    }
+        //}
+        //
+
         Vector3 dir;
         var dirMod = transform.position;
         var movMod = transform.position;
@@ -80,6 +85,22 @@ public class PlayerMovement : MonoBehaviour {
             dir = transform.position - dirMod;
             ClickPosition = movMod;
             GetRotationPosition(dir);
+        }
+
+        if (FixedJoystick.Horizontal != 0)
+        {
+            Vector3 direction = new Vector2(transform.position.x, transform.position.y) + FixedJoystick.Direction;
+            ClickPosition = direction;
+
+            if (PreviousPosition != Player.transform.position)
+            {
+                PreviousDirection = FixedJoystick.Direction;
+                GetRotationPosition(FixedJoystick.Direction);
+            }
+            else
+            {
+                GetRotationPosition(PreviousDirection);                
+            }
         }
     }
 
