@@ -42,7 +42,44 @@ public class PlayerMovement : MonoBehaviour {
             {
                 ClickPosition.z = transform.position.z;
             }
+        }
+        
+        Vector3 dir;
+        var dirMod = transform.position;
+        var movMod = transform.position;
+        var dist = 0.01f;
 
+        if (Input.GetKey(KeyCode.A))
+        {
+            dirMod.x += dist;
+            movMod.x -= dist;
+            dir = transform.position - dirMod;
+            ClickPosition = movMod;
+            GetRotationPosition(dir);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {                       
+            dirMod.x -= dist;
+            movMod.x += dist;
+            dir = transform.position - dirMod;
+            ClickPosition = movMod;
+            GetRotationPosition(dir);
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            dirMod.y -= dist;
+            movMod.y += dist;
+            dir = transform.position - dirMod;
+            ClickPosition = movMod;
+            GetRotationPosition(dir);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {            
+            dirMod.y += dist;
+            movMod.y -= dist;
+            dir = transform.position - dirMod;
+            ClickPosition = movMod;
+            GetRotationPosition(dir);
         }
     }
 
@@ -61,13 +98,14 @@ public class PlayerMovement : MonoBehaviour {
 
         PreviousPosition = Player.transform.position;
         var currentSpeed = PlayerStatistics.Stamina > 0 ? PlayerStatistics.Speed : PlayerStatistics.Speed * 0.75f;
+
         transform.position = Vector2.MoveTowards(transform.position, ClickPosition, currentSpeed * Time.deltaTime);        
     }
 
-    public void GetRotationPosition()
+    public void GetRotationPosition(Vector3? direction = null)
     {
         Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 dir = Input.mousePosition - pos;
+        Vector3 dir = direction.HasValue ? direction.Value : Input.mousePosition - pos;        
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }    

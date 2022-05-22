@@ -30,6 +30,7 @@ public class PatrolAI : EnemyAI {
     public float RequestNewLocationRefresh = 0;
 
     public bool DetectedPlayer = false;
+    public bool DumbPatrol = false;
 
     void Start ()
     {
@@ -50,25 +51,31 @@ public class PatrolAI : EnemyAI {
 
     public void InitialisePatrolRoute()
     {
-        //NavigationRoute = new List<Vector3>();
-        //NavigationRoute.Add(
-        //        new Vector3(
-        //        Random.Range(transform.position.x - EnemyStats.PatrolRange, transform.position.x + EnemyStats.PatrolRange),
-        //        Random.Range(transform.position.y - EnemyStats.PatrolRange, transform.position.y + EnemyStats.PatrolRange),
-        //        transform.position.z)
-        //    );
-        //for (int i = 0; i < 3; i++)
+        //if (DumbPatrol)
         //{
-        //    Vector3 temp = NavigationRoute[i];
+        //    NavigationRoute = new List<Vector3>();
         //    NavigationRoute.Add(
-        //        new Vector3(
-        //        Random.Range(temp.x - EnemyStats.PatrolRange, temp.x + EnemyStats.PatrolRange),
-        //        Random.Range(temp.y - EnemyStats.PatrolRange, temp.y + EnemyStats.PatrolRange),
-        //        temp.z)
-        //    );
+        //            new Vector3(
+        //            Random.Range(transform.position.x - EnemyStats.PatrolRange, transform.position.x + EnemyStats.PatrolRange),
+        //            Random.Range(transform.position.y - EnemyStats.PatrolRange, transform.position.y + EnemyStats.PatrolRange),
+        //            transform.position.z)
+        //        );
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        Vector3 temp = NavigationRoute[i];
+        //        NavigationRoute.Add(
+        //            new Vector3(
+        //            Random.Range(temp.x - EnemyStats.PatrolRange, temp.x + EnemyStats.PatrolRange),
+        //            Random.Range(temp.y - EnemyStats.PatrolRange, temp.y + EnemyStats.PatrolRange),
+        //            temp.z)
+        //        );
+        //    }
+        //}
+        //else
+        //{
+            NavigateToRandomNode();
         //}
 
-        NavigateToRandomNode();
         TargetPosition = NavigationRoute[0];
     }
 
@@ -250,6 +257,10 @@ public class PatrolAI : EnemyAI {
             {
                 NavigateToPlayer();
             }
+            //else if (DumbPatrol)
+            //{
+            //    InitialisePatrolRoute();
+            //}
             else
             {
                 NavigateToRandomNode();

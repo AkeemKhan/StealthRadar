@@ -830,7 +830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71398e241d78975459b7d0f23b53f0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyCount: 10
+  EnemyCount: 100
+  GridSize: 5
+  NumberOfRooms: 5
   Player: {fileID: 1896234410657698, guid: 0225424cc256c1a4384708aa51c8222c, type: 3}
   Enemy: {fileID: 1334848962204230, guid: 417de28a343c37949ac3ffe87ac0c365, type: 3}
   EnemySpawnPositions: []

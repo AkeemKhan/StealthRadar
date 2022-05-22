@@ -39,7 +39,7 @@ public class PlayerStatistics
     public static int Detections = 0;    
 
     public static int Level = 1;
-    public static int EnemyCount = 10;
+    public static int EnemyCount = 8;
     public static int EnemiesKilled;
     public static int EnemiesKilledThisRound;
 
@@ -67,6 +67,7 @@ public class PlayerStatistics
     {
         if (Level == 1)
         {
+            EnemyCount = 8;
             Health = MaxHealth = 100;
             Stamina = MaxStamina = 20;
             FloorsCleared = RoomsFound = Detected = PrisonersRescued =

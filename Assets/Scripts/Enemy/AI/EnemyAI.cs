@@ -51,9 +51,6 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
 
     public void NavigateToRandomNode()
     {
-        //NavigateToPlayer();
-        //    return;
-
         var closestNode = FindClosestNode();
 
         GameObject[] gos;

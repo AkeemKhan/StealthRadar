@@ -12,6 +12,8 @@ namespace Assets.Scripts.Utilities
     {
         // Temporary Game Builder
         public int EnemyCount = 10;
+        public int GridSize = 10;
+        public int NumberOfRooms = 10;
         public GameObject Player;
         public GameObject Enemy;
         public List<Vector2> EnemySpawnPositions;
@@ -39,10 +41,11 @@ namespace Assets.Scripts.Utilities
         Vector2 WorldSize = new Vector2(4, 4);
         Room[,] Rooms;
         List<Vector2> TakenPositions = new List<Vector2>();
-        int GridSizeX, GridSizeY = 10, NumberOfRooms = 10;
+        int GridSizeX, GridSizeY = 0;
                 
         void Start()
         {
+            GridSizeX = GridSizeY = GridSize;
             if (LoadTheTemplates)
                 LoadTemplates();
 
