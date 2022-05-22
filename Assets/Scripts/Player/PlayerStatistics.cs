@@ -74,6 +74,7 @@ public class PlayerStatistics
             InAlertPhase = false;
             MaxSpeed = Speed = 2;
         }
+        CurrentStealthStreak = 0;
         Detections = 0;
         Stamina = MaxStamina;
         Health = MaxHealth;
@@ -107,11 +108,12 @@ public class PlayerStatistics
     {
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
+        CurrentStealthStreak = 0;
 
         var completionBonus = 50;
         var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;
-        var enemyKilledBonus = EnemiesKilledThisRound * 5;
-        var stealthKillStreakBonus = System.Math.Pow(PlayerStatistics.CurrentStealthStreak,2);
+        var enemyKilledBonus = EnemiesKilledThisRound * 10;
+        var stealthKillStreakBonus = System.Math.Pow(PlayerStatistics.CurrentStealthStreak,3);
         var totalBonus = completionBonus + undetectedBonus + enemyKilledBonus + stealthKillStreakBonus;
 
         IncreaseExp((int)totalBonus);

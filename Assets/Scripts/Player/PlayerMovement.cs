@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
-            var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f;
+            var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f + (Time.deltaTime * PlayerStatistics.MaxStamina/100);
             PlayerStatistics.Stamina = newStamina >= PlayerStatistics.MaxStamina ? PlayerStatistics.MaxStamina : newStamina;
         }
 
