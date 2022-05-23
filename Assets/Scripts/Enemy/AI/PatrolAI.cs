@@ -8,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class PatrolAI : EnemyAI {
     
     public List<Vector3> NavRoute = new List<Vector3>();
-
-    public GameObject GunOffset;
+    
     private LayerMask _layerMask = 1;
     public bool IsInTargetSight;
     public bool NewMovementLocation = true;
@@ -31,6 +30,12 @@ public class PatrolAI : EnemyAI {
 
     public bool DetectedPlayer = false;
     public bool DumbPatrol = false;
+    public bool CanFire;
+    public bool HuntMode => DetectedPlayer && CanFire;
+
+    public GameObject GunOffset;
+    public GameObject AmmoType;
+    public GameObject Gun;
 
     void Start ()
     {
@@ -47,6 +52,8 @@ public class PatrolAI : EnemyAI {
         base.Initialise();
         EnemyState = EnemyState.Patrol;
         InitialisePatrolRoute();
+        CanFire = Random.Range(0, 100) < PlayerStatistics.DifficultyPercentage;
+        Gun.GetComponent<SpriteRenderer>().enabled = CanFire;
     }
 
     public void InitialisePatrolRoute()
@@ -140,6 +147,9 @@ public class PatrolAI : EnemyAI {
         if (FieldOfVisionController.IsInSight)
         {            
             RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, EnemyStats.DetectRangeStrong, _layerMask);
+            //RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, 20, _layerMask);
+
+            Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
 
             if (hit)
             {
@@ -147,12 +157,14 @@ public class PatrolAI : EnemyAI {
                 {
                     MovementTarget = MovementTarget.Player;
 
-                    Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
                     IsInTargetSight = true;
+
+                    RangeWeaponHandler();
 
                     if (!DetectedPlayer)
                     {
                         DetectedPlayer = true;
+                        EnemyStats.DetectRangeStrong = CanFire ? 15f : EnemyStats.DetectRangeStrong;
                         PlayerStatistics.Detections++;
                     }
 
@@ -189,6 +201,34 @@ public class PatrolAI : EnemyAI {
         else
         {
             EnemyStats.Speed = EnemyStats.PatrolSpeed;
+        }
+    }
+
+    public virtual void RangeWeaponHandler()
+    {
+        if (CanFire)
+        {
+            if (EnemyStats.FireCooldown >= EnemyStats.FireRate)
+            {
+                EnemyStats.FireCooldown = 0;
+                
+                var hits = Physics2D.RaycastAll(GunOffset.transform.position, FieldOfVisionController.Direction, 100, _layerMask);
+                var wall = hits.FirstOrDefault(p => p.collider.tag == EntityConstants.WALL_TAG);
+
+                var ray = new Ray2D(GunOffset.transform.position, FieldOfVisionController.Direction);
+                var bulletTarget = ray.GetPoint(10);
+                var bulletTargetRecoil = new Vector2(bulletTarget.x + Random.Range(-1f, 1f), bulletTarget.y + Random.Range(-1f, 1f));
+                //var gameObj = new GameObject();
+
+                //Vector3 dir = (transform.position - TargetPosition).normalized;
+                //Instantiate(gameObj, bulletTarget, transform.rotation);
+                Instantiate(AmmoType, GunOffset.transform.position, transform.rotation);
+                
+                var script = AmmoType.GetComponent<Bullet>();
+                script.TargetPosition = bulletTargetRecoil;
+                script.Damage = 30;
+                script.Speed = 30;
+            }
         }
     }
 
@@ -306,13 +346,7 @@ public class PatrolAI : EnemyAI {
             if (FieldOfVisionController.IsInSight && EnemyState != EnemyState.Disabled)
             {
                 PreventMove = 1;
-                PlayerStatistics.Health -= 50;
-
-                if (PlayerStatistics.Health <= 0)
-                {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-                }
+                PlayerStatistics.DamagePlayer(50);
             }
             else
             {

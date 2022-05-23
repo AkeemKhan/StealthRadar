@@ -10,8 +10,8 @@ namespace Assets.Scripts.Enemy.Stats
         public float BasePersueSpeed = 1.8f;
         public float BaseAlertSpeed = 1.7f;
         public float BasePatrolSpeed = 1.5f;
-        public float BaseFovAngleStrong = 160;
-        public float BaseDetectRangeStrong = 2f;
+        public float BaseFovAngleStrong = 90;
+        public float BaseDetectRangeStrong = 3f;
 
         public float MaxPersueSpeed = 2.5f;
         public float MaxAlertSpeed = 2f;
@@ -27,27 +27,27 @@ namespace Assets.Scripts.Enemy.Stats
 
         public override void InitialiseStats()
         {
-            var persueSpeed = PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Level)) * BasePersueSpeed : BasePersueSpeed;
+            var persueSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BasePersueSpeed : BasePersueSpeed;
             PersueSpeed = persueSpeed > MaxPersueSpeed ? MaxPersueSpeed : persueSpeed;
 
-            var alertSpeed = PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Level)) * BaseAlertSpeed : BaseAlertSpeed;
+            var alertSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseAlertSpeed : BaseAlertSpeed;
             AlertSpeed = alertSpeed > MaxAlertSpeed ? MaxAlertSpeed : alertSpeed;
 
-            var patrolSpeed = PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Level)) *  BasePatrolSpeed : BasePatrolSpeed;
+            var patrolSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) *  BasePatrolSpeed : BasePatrolSpeed;
             PatrolSpeed = patrolSpeed > MaxPatrolSpeed ? MaxPatrolSpeed : patrolSpeed;
 
-            var fovAngle = (PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Level)) * BaseFovAngleStrong : BaseFovAngleStrong);            
+            var fovAngle = (PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseFovAngleStrong : BaseFovAngleStrong);            
             FovAngleStrong = fovAngle > MaxFovAngleStrong ? MaxFovAngleStrong : fovAngle;
 
-            var detectRange = PlayerStatistics.Level > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Level)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
+            var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
             DetectRangeStrong = detectRange > MaxDetectRangeStrong ? MaxDetectRangeStrong : detectRange;
 
-            FovAngleWeak = 30;
+            FovAngleWeak = 60;
             RaycastOffset = 0;
             PatrolRange = 5;
             AlertPhaseDuration = 60;
             FireCount = 4;
-            FireRate = 0.4f;
+            FireRate = 0.2f;
             AlertRate = 10;
             AlertRange = 0;
             CamaraRotateRate = 0;

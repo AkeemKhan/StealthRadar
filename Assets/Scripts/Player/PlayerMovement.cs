@@ -113,7 +113,9 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
-            var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f + (Time.deltaTime * PlayerStatistics.MaxStamina/100);
+            var regen = (PlayerStatistics.MaxStamina * Time.deltaTime) / 10;
+            //var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f + (Time.deltaTime * PlayerStatistics.MaxStamina/100);
+            var newStamina = PlayerStatistics.Stamina + regen;
             PlayerStatistics.Stamina = newStamina >= PlayerStatistics.MaxStamina ? PlayerStatistics.MaxStamina : newStamina;
         }
 

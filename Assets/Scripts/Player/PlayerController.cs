@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public int PlayerLevel;
     public int PlayerExp;
-    public int Detections;    
+    public int Detections;
+    public float Speed;
 
     // Use this for initialization
     void Start ()
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
         PlayerLevel = PlayerStatistics.PlayerLevel;
         PlayerExp = PlayerStatistics.PlayerExp;
         Detections = PlayerStatistics.Detections;
+        Speed = PlayerStatistics.Speed;
     }
 
     public void InitialisePlayer()

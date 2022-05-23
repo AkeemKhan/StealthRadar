@@ -34,7 +34,7 @@ public class Details : MonoBehaviour
         TotalEnemiesKilled = PlayerStatistics.EnemiesKilled;
         EnemiesKilledSoFar = PlayerStatistics.EnemiesKilledThisRound;
         StealthStreak = PlayerStatistics.CurrentStealthStreak;
-        Stage = PlayerStatistics.Level;
+        Stage = PlayerStatistics.Stage;
 
         var pl = GameObject.Find("PlayerLevel");
         var exp = GameObject.Find("PlayerExp");
@@ -53,7 +53,7 @@ public class Details : MonoBehaviour
         detC.text = Detections.ToString();
 
         var koC = ko.GetComponent<UnityEngine.UI.Text>();
-        koC.text = TotalEnemiesKilled.ToString();
+        koC.text = EnemiesKilledSoFar.ToString();
 
         var strC = str.GetComponent<UnityEngine.UI.Text>();
         strC.text = StealthStreak.ToString();

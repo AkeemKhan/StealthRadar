@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatistics
 {
@@ -38,13 +39,14 @@ public class PlayerStatistics
     public static float CurrentAlertTime;
     public static int Detections = 0;    
 
-    public static int Level = 1;
+    public static int Stage = 1;
     public static int EnemyCount = 8;
     public static int EnemiesKilled;
     public static int EnemiesKilledThisRound;
 
     public static int PlayerLevel = 1;
     public static int PlayerExp = 0;
+    public static int DifficultyPercentage = 10;
 
     // Accessors
     public static bool CurrentFloorCleared
@@ -65,7 +67,7 @@ public class PlayerStatistics
     
     public static void ResetStats()
     {
-        if (Level == 1)
+        if (Stage == 1)
         {
             EnemyCount = 8;
             Health = MaxHealth = 100;
@@ -73,12 +75,16 @@ public class PlayerStatistics
             FloorsCleared = RoomsFound = Detected = PrisonersRescued =
             SecretRoomsFound = KeyCardsFound = EnemiesKilled = HighestStealthStreak = 0;            
             InAlertPhase = false;
-            MaxSpeed = Speed = 2;
+            MaxSpeed = 2.8f;
+            Speed = 2;
         }
-        CurrentStealthStreak = 0;
-        Detections = 0;
-        Stamina = MaxStamina;
-        Health = MaxHealth;
+        else
+        {
+            CurrentStealthStreak = 0;
+            Detections = 0;
+            Stamina = MaxStamina;
+            Health += MaxHealth/10;
+        }
     }
 
     public static void IncreaseExp(int addExp)
@@ -90,19 +96,17 @@ public class PlayerStatistics
             PlayerExp -= 100; 
             LevelUp();
         }
-
     }
 
     public static void LevelUp()
     {
         PlayerLevel++;
-        MaxSpeed *= 1.05f;
-        Speed = PlayerStatistics.MaxSpeed;
+        Speed *= Speed >= MaxSpeed ? 1.01f : 1.04f;
         MaxHealth += Random.Range(5, 15);
         MaxStamina += Random.Range(2, 5);
 
         Stamina = MaxStamina;
-        Health = MaxHealth;
+        Health += MaxHealth/10;
     }
 
     public static void ClearFloor()
@@ -110,6 +114,7 @@ public class PlayerStatistics
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
         CurrentStealthStreak = 0;
+        DifficultyPercentage += (10 + Random.Range(0, 5));
 
         var completionBonus = 50;
         var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;
@@ -119,13 +124,26 @@ public class PlayerStatistics
 
         IncreaseExp((int)totalBonus);
 
-        Level++;
+        Stage++;
         EnemyCount++;
-    }
+    }  
 
     public static void DamagePlayer(float damage)
     {
         Health -= damage;
         if (Health < 0) PlayerAlive = false;
+
+        if (PlayerStatistics.Health <= 0)
+        {
+            if (PlayerLevel > 1)
+            {
+                PlayerLevel = 1;
+            }
+            else if (PlayerLevel == 1)
+            {
+                Stage = 1;
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

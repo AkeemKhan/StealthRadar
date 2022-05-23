@@ -132,6 +132,7 @@ MonoBehaviour:
   PlayerLevel: 0
   PlayerExp: 0
   Detections: 0
+  Speed: 0
 --- !u!114 &114041052115007414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +149,8 @@ MonoBehaviour:
   PlayerController: {fileID: 114305694803105220}
   ClickPosition: {x: 0, y: 0, z: 0}
   PreviousPosition: {x: 0, y: 0, z: 0}
+  PreviousDirection: {x: 0, y: 0, z: 0}
+  FixedJoystick: {fileID: 0}
 --- !u!114 &114608887073354488
 MonoBehaviour:
   m_ObjectHideFlags: 0

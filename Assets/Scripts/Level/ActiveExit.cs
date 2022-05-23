@@ -26,6 +26,11 @@ public class ActiveExit : MonoBehaviour
             if (IsExit)
             {                
                 PlayerStatistics.ClearFloor();
+
+                if (PlayerStatistics.Stage == 16)
+                {
+                    Application.Quit();
+                }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }

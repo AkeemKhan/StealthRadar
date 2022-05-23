@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyObject : MonoBehaviour {
 
-    public int delay;
+    public float delay;
 
 	void Start () {
         Destroy(gameObject, delay);
