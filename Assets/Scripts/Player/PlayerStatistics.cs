@@ -67,6 +67,9 @@ public class PlayerStatistics
     
     public static void ResetStats()
     {
+        CurrentStealthStreak = 0;
+        Detections = 0;
+
         if (Stage == 1)
         {
             EnemyCount = 8;
@@ -78,11 +81,6 @@ public class PlayerStatistics
             MaxSpeed = 2.8f;
             Speed = 2;
         }
-
-        CurrentStealthStreak = 0;
-        Detections = 0;
-        Stamina = MaxStamina;
-        Health += MaxHealth/10;        
     }
 
     public static void IncreaseExp(int addExp)
@@ -112,7 +110,7 @@ public class PlayerStatistics
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
         CurrentStealthStreak = 0;
-        DifficultyModifier += (10 + Random.Range(0, 5));
+        DifficultyModifier += Detections * 5;
 
         var completionBonus = 50;
         var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;
@@ -121,6 +119,16 @@ public class PlayerStatistics
         var totalBonus = completionBonus + undetectedBonus + enemyKilledBonus + stealthKillStreakBonus;
 
         IncreaseExp((int)totalBonus);
+
+        var healAmount = MaxHealth / (Detections == 0 ? 20 : 10);
+
+        Stamina = MaxStamina;
+        Health += healAmount;
+
+        if (Health > MaxHealth)
+        {
+            Health = MaxHealth;
+        }
 
         Stage++;
         EnemyCount++;

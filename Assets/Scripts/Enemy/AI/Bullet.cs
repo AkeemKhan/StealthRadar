@@ -45,6 +45,11 @@ public class Bullet : MonoBehaviour
         if (coll.transform.tag == EntityConstants.PLAYER_TAG)
         {
             PlayerStatistics.DamagePlayer(Damage);
+
+            coll.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            coll.transform.GetComponent<Rigidbody2D>().freezeRotation = true;
+            coll.transform.GetComponent<Rigidbody2D>().freezeRotation = false;
+
             Destroy(gameObject);
         }
 
