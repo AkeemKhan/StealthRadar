@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 212833178245199196}
   - component: {fileID: 61153225156250078}
   - component: {fileID: 50471640458606064}
+  - component: {fileID: 2380201575983581483}
   - component: {fileID: 114010167364584122}
-  - component: {fileID: 114688967068331222}
   - component: {fileID: 114079543638963422}
   m_Layer: 0
-  m_Name: StandardGuard
+  m_Name: HeavyGuard
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7908b6fbfecbe0f4da40aba033debc7f, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.4528302, g: 0.17728728, b: 0.26857945, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -138,6 +138,54 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2380201575983581483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334848962204230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f68280a8f9dc2b4696d65e60a453992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PursueSpeed: 0
+  AlertSpeed: 0
+  PatrolSpeed: 0
+  FovAngleStrong: 0
+  FovAngleWeak: 0
+  DetectRangeStrong: 0
+  DetectRangeWeak: 0
+  RaycastOffset: 0
+  PatrolRange: 0
+  AlertPhaseDuration: 0
+  FireCount: 0
+  FireRate: 0
+  AlertRate: 0
+  AlertRange: 0
+  CamaraRotateRate: 0
+  Speed: 0
+  FireCooldown: 0
+  AlertPhaseCountdown: 0
+  AlertCounter: 0
+  TrackingTime: 0
+  TrackingCountdown: 0
+  AlwaysFire: 0
+  FireRatePerSecond: 0
+  MeleeDamage: 0
+  BulletSpeed: 0
+  BulletDamage: 0
+  BasePersueSpeed: 0
+  BaseAlertSpeed: 0.85
+  BasePatrolSpeed: 0.75
+  BaseFovAngleStrong: 90
+  BaseDetectRangeStrong: 5
+  MaxPersueSpeed: 0
+  MaxAlertSpeed: 1.5
+  MaxPatrolSpeed: 1.2
+  MaxFovAngleStrong: 200
+  MaxDetectRangeStrong: 7
 --- !u!114 &114010167364584122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +203,7 @@ MonoBehaviour:
   EnableDebug: 0
   ClosestNode: {fileID: 0}
   PlayerClosestNode: {fileID: 0}
-  EnemyStats: {fileID: 114688967068331222}
+  EnemyStats: {fileID: 2380201575983581483}
   TargetPosition: {x: 0, y: 0, z: 0}
   FieldOfVisionController: {fileID: 114079543638963422}
   PlayerPosition: {x: 0, y: 0, z: 0}
@@ -185,57 +233,9 @@ MonoBehaviour:
   AmmoType: {fileID: 1626356182254303136, guid: a70a53f11e721b547aa44d741c08e4d2,
     type: 3}
   Gun: {fileID: 1725630664890697292}
-  Marker: {fileID: 0}
+  Marker: {fileID: 1893500113021616, guid: 8ee67d3a31cc07346bf8463c91ac6a29, type: 3}
   tmpb: 0
   Clipped: 0
---- !u!114 &114688967068331222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334848962204230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5473583555e3f9241ac7726fc594fac2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PursueSpeed: 0
-  AlertSpeed: 0
-  PatrolSpeed: 0
-  FovAngleStrong: 0
-  FovAngleWeak: 0
-  DetectRangeStrong: 0
-  DetectRangeWeak: 0
-  RaycastOffset: 0
-  PatrolRange: 0
-  AlertPhaseDuration: 0
-  FireCount: 0
-  FireRate: 0
-  AlertRate: 0
-  AlertRange: 0
-  CamaraRotateRate: 0
-  Speed: 0
-  FireCooldown: 0
-  AlertPhaseCountdown: 0
-  AlertCounter: 0
-  TrackingTime: 0
-  TrackingCountdown: 0
-  AlwaysFire: 0
-  FireRatePerSecond: 0
-  MeleeDamage: 0
-  BulletSpeed: 0
-  BulletDamage: 0
-  BasePersueSpeed: 1.8
-  BaseAlertSpeed: 1.7
-  BasePatrolSpeed: 1.5
-  BaseFovAngleStrong: 160
-  BaseDetectRangeStrong: 2
-  MaxPersueSpeed: 2.5
-  MaxAlertSpeed: 2
-  MaxPatrolSpeed: 1.7
-  MaxFovAngleStrong: 200
-  MaxDetectRangeStrong: 6
 --- !u!114 &114079543638963422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  EnemyStats: {fileID: 114688967068331222}
+  EnemyStats: {fileID: 0}
   Direction: {x: 0, y: 0, z: 0}
   IsInSight: 0
 --- !u!1 &1396620063145126
@@ -308,8 +308,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725630664890697292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1706, y: 0, z: 0}
-  m_LocalScale: {x: 2.3647, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.2958872, y: 1.9021, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4851612484768162}

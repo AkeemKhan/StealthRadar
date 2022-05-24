@@ -14,5 +14,6 @@ namespace Assets.Scripts.Utilities
         public const string ENEMY_SPAWN_TAG = "EnemySpawn";
         public const string EXIT_TAG = "Exit";
         public const string PFNODE_TAG = "PFNode";
+        public const string BULLET_TAG = "Bullet";
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - EnemySpawn
   - PFNode
   - HealthSpawn
+  - Bullet
   layers:
   - Default
   - TransparentFX

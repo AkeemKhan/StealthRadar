@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyStats : MonoBehaviour
 {
-    public float PersueSpeed;
+    public float PursueSpeed;
     public float AlertSpeed;
     public float PatrolSpeed;
     public float FovAngleStrong;
@@ -26,6 +26,12 @@ public abstract class EnemyStats : MonoBehaviour
     public float TrackingTime;
     public float TrackingCountdown;
 
+    public bool AlwaysFire;
+    public float FireRatePerSecond;
+    public float MeleeDamage;
+    public float BulletSpeed;
+    public float BulletDamage;
+
     void Start()
     {
         InitialiseStats();
@@ -33,25 +39,6 @@ public abstract class EnemyStats : MonoBehaviour
 
     public virtual void InitialiseStats()
     {
-        PersueSpeed = 4;
-        AlertSpeed = 3;
-        PatrolSpeed = 1;
-        FovAngleStrong = 90;
-        FovAngleWeak = 30;
-        DetectRangeStrong = 0;
-        RaycastOffset = 0;
-        PatrolRange = 5;
-        AlertPhaseDuration = 60;
-        FireCount = 4;
-        FireRate = 0.4f;
-        AlertRate = 10;
-        AlertRange = 0;
-        CamaraRotateRate = 0;
-
-        Speed = 2;
-        FireCooldown = 0;
-        AlertPhaseCountdown = 0;
-        AlertCounter = 0;
     }
 }
 

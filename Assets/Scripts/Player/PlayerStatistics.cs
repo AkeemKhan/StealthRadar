@@ -46,7 +46,7 @@ public class PlayerStatistics
 
     public static int PlayerLevel = 1;
     public static int PlayerExp = 0;
-    public static int DifficultyPercentage = 10;
+    public static int DifficultyModifier = 10;
 
     // Accessors
     public static bool CurrentFloorCleared
@@ -114,7 +114,7 @@ public class PlayerStatistics
         ClearTimes.Add(CurrentGameTime);
         CurrentGameTime = 0;
         CurrentStealthStreak = 0;
-        DifficultyPercentage += (10 + Random.Range(0, 5));
+        DifficultyModifier += (10 + Random.Range(0, 5));
 
         var completionBonus = 50;
         var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;

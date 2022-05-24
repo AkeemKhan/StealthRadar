@@ -16,6 +16,9 @@ namespace Assets.Scripts.Utilities
         public int NumberOfRooms = 10;
         public GameObject Player;
         public GameObject Enemy;
+
+        public EnemyGeneration EnemyGeneration;
+
         public List<Vector2> EnemySpawnPositions;
         public List<Vector2> PlayerSpawnPositions;
 
@@ -249,29 +252,35 @@ namespace Assets.Scripts.Utilities
         
         private void Designer()
         {
+            InitialisePlayer();
+            InitialiseEnemies();
+            InitialiseExits();
+        }
+
+        private static void InitialiseExits()
+        {
+            var PotentialExits = GameObject.FindGameObjectsWithTag(EntityConstants.EXIT_TAG);
+            PotentialExits[UnityEngine.Random.Range(0, PotentialExits.Length - 1)].GetComponent<ActiveExit>().SetAsExit();
+        }
+
+        private void InitialiseEnemies()
+        {
             EnemyCount = PlayerStatistics.EnemyCount;
 
+            EnemySpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.ENEMY_SPAWN_TAG)
+                .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();            
+
+            EnemyGeneration.Initialise(EnemySpawnPositions, EnemyCount, PlayerStatistics.DifficultyModifier);
+            EnemyGeneration.GenerateEnemies();
+        }
+
+        private void InitialisePlayer()
+        {
             PlayerSpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.PLAYER_SPAWN_TAG)
-                .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
+                            .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
 
             Vector2 playerPosition = PlayerSpawnPositions[UnityEngine.Random.Range(0, PlayerSpawnPositions.Count - 1)];
             Instantiate(Player, new Vector3(playerPosition.x, playerPosition.y), Quaternion.identity);
-
-            EnemySpawnPositions = GameObject.FindGameObjectsWithTag(EntityConstants.ENEMY_SPAWN_TAG)
-                .Select(p => new Vector2(p.transform.position.x, p.transform.position.y)).ToList();
-
-            for (int i = 0; i < EnemyCount; i++)
-            {
-                if (EnemySpawnPositions.Count > 0)
-                {
-                    Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
-                    Instantiate(Enemy, new Vector3(position.x, position.y), Quaternion.identity);
-                    // EnemySpawnPositions.Remove(position);
-                }
-            }
-
-            var PotentialExits = GameObject.FindGameObjectsWithTag(EntityConstants.EXIT_TAG);
-            PotentialExits[UnityEngine.Random.Range(0, PotentialExits.Length - 1)].GetComponent<ActiveExit>().SetAsExit();
         }
 
         public void BuildNavidationGraph()

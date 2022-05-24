@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enemy.Stats
 {
-    public sealed class StandardGuardStats : EnemyStats, IStats
+    internal class HeavyGuardStats : EnemyStats
     {
-        public float BasePersueSpeed = 1.8f;
-        public float BaseAlertSpeed = 1.7f;
-        public float BasePatrolSpeed = 1.5f;
+        public float BasePersueSpeed = 0f;
+        public float BaseAlertSpeed = 0.85f;
+        public float BasePatrolSpeed = 0.75f;
         public float BaseFovAngleStrong = 90;
-        public float BaseDetectRangeStrong = 3f;
+        public float BaseDetectRangeStrong = 5f;
 
-        public float MaxPersueSpeed = 2.5f;
-        public float MaxAlertSpeed = 2f;
-        public float MaxPatrolSpeed = 1.7f;
+        public float MaxPersueSpeed = 0f;
+        public float MaxAlertSpeed = 1.5f;
+        public float MaxPatrolSpeed = 1.2f;
         public float MaxFovAngleStrong = 200;
-        public float MaxDetectRangeStrong = 6f;
+        public float MaxDetectRangeStrong = 7f;
 
         void Start()
         {
@@ -26,22 +27,23 @@ namespace Assets.Scripts.Enemy.Stats
 
         public override void InitialiseStats()
         {
-            MeleeDamage = 50;
-            BulletSpeed = 10;
-            BulletDamage = 30;
-            FireRatePerSecond = 4f;
-            FireRate = 1 / FireRatePerSecond;
+            AlwaysFire = true;
 
-            var persueSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BasePersueSpeed : BasePersueSpeed;
-            PursueSpeed = persueSpeed > MaxPersueSpeed ? MaxPersueSpeed : persueSpeed;
+            MeleeDamage = 10;
+            BulletSpeed = 20;
+            BulletDamage = 25;
+            PursueSpeed = 0;
+
+            FireRatePerSecond = 10f;
+            FireRate = 1 / FireRatePerSecond;
 
             var alertSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseAlertSpeed : BaseAlertSpeed;
             AlertSpeed = alertSpeed > MaxAlertSpeed ? MaxAlertSpeed : alertSpeed;
 
-            var patrolSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) *  BasePatrolSpeed : BasePatrolSpeed;
+            var patrolSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BasePatrolSpeed : BasePatrolSpeed;
             PatrolSpeed = patrolSpeed > MaxPatrolSpeed ? MaxPatrolSpeed : patrolSpeed;
 
-            var fovAngle = (PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseFovAngleStrong : BaseFovAngleStrong);            
+            var fovAngle = (PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseFovAngleStrong : BaseFovAngleStrong);
             FovAngleStrong = fovAngle > MaxFovAngleStrong ? MaxFovAngleStrong : fovAngle;
 
             var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
@@ -50,7 +52,7 @@ namespace Assets.Scripts.Enemy.Stats
             FovAngleWeak = 60;
             RaycastOffset = 0;
             PatrolRange = 5;
-            AlertPhaseDuration = 60;
+            AlertPhaseDuration = 60;            
             AlertRate = 10;
             AlertRange = 0;
             CamaraRotateRate = 0;
@@ -58,7 +60,7 @@ namespace Assets.Scripts.Enemy.Stats
             FireCooldown = 0;
             AlertPhaseCountdown = 0;
             AlertCounter = 0;
-            TrackingTime = 5;        
+            TrackingTime = 5;
         }
     }
 }

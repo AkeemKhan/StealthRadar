@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1626356182254303138}
   - component: {fileID: 6205842705669406939}
   - component: {fileID: -1366256953229578669}
+  - component: {fileID: -2044915073227814893}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +103,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.08
+  m_Radius: 0.01
 --- !u!114 &6205842705669406939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,10 +116,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70511049c80eed94a999141c33351cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 30
-  Speed: 30
-  TargetPosition: {x: 13.004095, y: -25.860847}
+  Damage: 25
+  Speed: 40
+  Marker: {fileID: 0}
+  TargetPosition: {x: 1.3107862, y: -13.968923}
   Direction: {x: 0, y: 0}
+  MarkerInitialised: 0
 --- !u!114 &-1366256953229578669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +135,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1
+--- !u!50 &-2044915073227814893
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626356182254303136}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

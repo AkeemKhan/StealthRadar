@@ -152,7 +152,7 @@ public enum EnemyState
 {
     Patrol,
     Alert,
-    Persue,
+    Pursue,
     Shoot,
     Track,
     StayOnPath,

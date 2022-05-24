@@ -812,6 +812,7 @@ GameObject:
   m_Component:
   - component: {fileID: 635387856}
   - component: {fileID: 635387855}
+  - component: {fileID: 635387857}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -836,6 +837,7 @@ MonoBehaviour:
   NumberOfRooms: 5
   Player: {fileID: 1896234410657698, guid: 0225424cc256c1a4384708aa51c8222c, type: 3}
   Enemy: {fileID: 1334848962204230, guid: 417de28a343c37949ac3ffe87ac0c365, type: 3}
+  EnemyGeneration: {fileID: 635387857}
   EnemySpawnPositions: []
   PlayerSpawnPositions: []
   RoomObject: {fileID: 1092443120980018, guid: 4a9b78b751d9b804cba8ca5080db4aac, type: 3}
@@ -861,6 +863,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &635387857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635387854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 759ca86c46376f94889fa87f34eec0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemySpawnPositions: []
+  EnemyCount: 0
+  DifficultyModifier: 0
+  StandardGuard: {fileID: 1334848962204230, guid: 417de28a343c37949ac3ffe87ac0c365,
+    type: 3}
+  HeavyGuard: {fileID: 1334848962204230, guid: a98a9204bb346c34f8464b599e064b89, type: 3}
 --- !u!1 &734680778
 GameObject:
   m_ObjectHideFlags: 0
