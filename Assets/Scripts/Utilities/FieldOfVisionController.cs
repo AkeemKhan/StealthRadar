@@ -9,6 +9,8 @@ public class FieldOfVisionController : MonoBehaviour {
     public Vector3 Direction;
     public bool IsInSight;
 
+    public PlayerMovement PlayerMovement;
+
     public void Initialise(GameObject target, EnemyStats stats)
     {
         Target = target;
@@ -30,10 +32,17 @@ public class FieldOfVisionController : MonoBehaviour {
 
     public void FieldOfVision()
     {
+        if (PlayerMovement == null)
+        {
+            PlayerMovement = Target.GetComponent<PlayerMovement>();
+        }
+
         Direction = Target.transform.position - transform.position;
         float angle = Vector3.Angle(Direction, transform.right);
 
-        if (angle < EnemyStats.FovAngleStrong / 2)
+        var useFov = PlayerMovement.IsMoving ? EnemyStats.FovAngleStrong : EnemyStats.FovAngleWeak;
+
+        if (angle < useFov / 2)
         {
             if (!IsInSight)
             {

@@ -78,13 +78,11 @@ public class PlayerStatistics
             MaxSpeed = 2.8f;
             Speed = 2;
         }
-        else
-        {
-            CurrentStealthStreak = 0;
-            Detections = 0;
-            Stamina = MaxStamina;
-            Health += MaxHealth/10;
-        }
+
+        CurrentStealthStreak = 0;
+        Detections = 0;
+        Stamina = MaxStamina;
+        Health += MaxHealth/10;        
     }
 
     public static void IncreaseExp(int addExp)

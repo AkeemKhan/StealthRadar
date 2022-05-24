@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PatrolAI : EnemyAI {
-    
+
     public List<Vector3> NavRoute = new List<Vector3>();
     
     private LayerMask _layerMask = 1;
@@ -33,7 +33,7 @@ public class PatrolAI : EnemyAI {
     public bool CanFire;
     public bool HuntMode => DetectedPlayer && CanFire;
     public float DefaultFov;
-    public float DefaultDetectRange;
+    public float AlertDetectRange;
 
     public GameObject GunOffset;
     public GameObject AmmoType;
@@ -54,12 +54,13 @@ public class PatrolAI : EnemyAI {
     {
         base.Initialise();
         EnemyState = EnemyState.Patrol;
-        DefaultFov = EnemyStats.FovAngleStrong;
-        DefaultDetectRange = 10f;
 
         InitialisePatrolRoute();
 
         EnemyStats.InitialiseStats();
+        DefaultFov = EnemyStats.FovAngleStrong;
+        AlertDetectRange = 10f;
+
         GunOffset = transform.GetChild(0).gameObject;
 
         CanFire = Random.Range(0, 100) < PlayerStatistics.DifficultyModifier || EnemyStats.AlwaysFire;
@@ -204,11 +205,12 @@ public class PatrolAI : EnemyAI {
         }
 
         if (FieldOfVisionController.IsInSight)
-        {            
-            RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, EnemyStats.DetectRangeStrong, _layerMask);
-            //RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, 20, _layerMask);
+        {
+            var useDetectRange = EnemyState == EnemyState.Patrol 
+                ? PlayerMovement.IsMoving ? EnemyStats.DetectRangeStrong 
+                : EnemyStats.DetectRangeWeak : EnemyStats.DetectRangeStrong;
 
-            // Debug.DrawRay(GunOffset.transform.position, FieldOfVisionController.Direction, Color.blue);
+            RaycastHit2D hit = Physics2D.Raycast(GunOffset.transform.position, FieldOfVisionController.Direction, useDetectRange, _layerMask);
 
             if (hit)
             {
@@ -223,7 +225,7 @@ public class PatrolAI : EnemyAI {
                     if (!DetectedPlayer)
                     {
                         DetectedPlayer = true;
-                        EnemyStats.DetectRangeStrong = CanFire ? DefaultDetectRange : EnemyStats.DetectRangeStrong;
+                        EnemyStats.DetectRangeStrong = CanFire ? AlertDetectRange : EnemyStats.DetectRangeStrong;
                         PlayerStatistics.Detections++;
                     }
 

@@ -6,11 +6,19 @@ public class PlayerMovement : MonoBehaviour {
 
     public GameObject Player;
     public PlayerController PlayerController;
+
+    public Sprite MovingSprite;
+    public Sprite HollowSprite;
+
+    public SpriteRenderer SpriteRenderer;
+
     public Vector3 ClickPosition;
     public Vector3 PreviousPosition;
     public Vector3 PreviousDirection;
 
     public FixedJoystick FixedJoystick;
+
+    public bool IsMoving;
 
     public float PlayerSpeed
     {
@@ -24,6 +32,8 @@ public class PlayerMovement : MonoBehaviour {
         ClickPosition = Player.transform.position;
         PreviousPosition = Player.transform.position;
         FixedJoystick = GameObject.Find("Fixed Joystick").GetComponent<FixedJoystick>();
+        Player = transform.gameObject;
+        SpriteRenderer = Player.GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
@@ -110,6 +120,10 @@ public class PlayerMovement : MonoBehaviour {
         {
             var newStamina = PlayerStatistics.Stamina - Time.deltaTime;
             PlayerStatistics.Stamina = newStamina <= 0 ? 0 : newStamina;
+            IsMoving = true;
+
+            if (SpriteRenderer.sprite != MovingSprite)
+                SpriteRenderer.sprite = MovingSprite;
         }
         else
         {
@@ -117,6 +131,10 @@ public class PlayerMovement : MonoBehaviour {
             //var newStamina = PlayerStatistics.Stamina + Time.deltaTime * 2f + (Time.deltaTime * PlayerStatistics.MaxStamina/100);
             var newStamina = PlayerStatistics.Stamina + regen;
             PlayerStatistics.Stamina = newStamina >= PlayerStatistics.MaxStamina ? PlayerStatistics.MaxStamina : newStamina;
+            IsMoving = false;
+
+            if (SpriteRenderer.sprite != HollowSprite)
+                SpriteRenderer.sprite = HollowSprite;
         }
 
         PreviousPosition = Player.transform.position;

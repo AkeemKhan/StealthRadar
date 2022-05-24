@@ -12,7 +12,7 @@ namespace Assets.Scripts.Enemy.Stats
         public float BaseAlertSpeed = 0.85f;
         public float BasePatrolSpeed = 0.75f;
         public float BaseFovAngleStrong = 90;
-        public float BaseDetectRangeStrong = 5f;
+        public float BaseDetectRangeStrong = 4f;
 
         public float MaxPersueSpeed = 0f;
         public float MaxAlertSpeed = 1.5f;
@@ -31,8 +31,10 @@ namespace Assets.Scripts.Enemy.Stats
 
             MeleeDamage = 10;
             BulletSpeed = 20;
-            BulletDamage = 25;
+            BulletDamage = 20;
             PursueSpeed = 0;
+            DetectRangeWeak = 3.5f;
+            FovAngleWeak = 40;
 
             FireRatePerSecond = 10f;
             FireRate = 1 / FireRatePerSecond;

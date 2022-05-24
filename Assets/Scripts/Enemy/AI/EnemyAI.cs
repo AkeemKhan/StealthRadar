@@ -7,6 +7,8 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour, IEnemyAI
 {
     public GameObject PlayerObject;
+    public PlayerMovement PlayerMovement => PlayerObject.GetComponent<PlayerMovement>();
+
     protected GameObject Target;
     public EnemyState EnemyState;
     public bool EnableDebug = false;

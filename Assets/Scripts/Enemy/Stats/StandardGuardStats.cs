@@ -11,7 +11,7 @@ namespace Assets.Scripts.Enemy.Stats
         public float BaseAlertSpeed = 1.7f;
         public float BasePatrolSpeed = 1.5f;
         public float BaseFovAngleStrong = 90;
-        public float BaseDetectRangeStrong = 3f;
+        public float BaseDetectRangeStrong = 3f;        
 
         public float MaxPersueSpeed = 2.5f;
         public float MaxAlertSpeed = 2f;
@@ -28,9 +28,11 @@ namespace Assets.Scripts.Enemy.Stats
         {
             MeleeDamage = 50;
             BulletSpeed = 10;
-            BulletDamage = 30;
+            BulletDamage = 20;
             FireRatePerSecond = 4f;
             FireRate = 1 / FireRatePerSecond;
+            DetectRangeWeak = 2.5f;
+            FovAngleWeak = 40;          
 
             var persueSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BasePersueSpeed : BasePersueSpeed;
             PursueSpeed = persueSpeed > MaxPersueSpeed ? MaxPersueSpeed : persueSpeed;
@@ -46,6 +48,7 @@ namespace Assets.Scripts.Enemy.Stats
 
             var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
             DetectRangeStrong = detectRange > MaxDetectRangeStrong ? MaxDetectRangeStrong : detectRange;
+
 
             FovAngleWeak = 60;
             RaycastOffset = 0;
