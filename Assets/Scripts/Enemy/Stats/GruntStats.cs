@@ -20,7 +20,7 @@ public class GruntStats : EnemyStats, IStats
     public float MaxBulletDamage = 50;
     public float MaxBulletSpeed = 20;
 
-    public float ScaleFactor = 1.10f;
+    public float ScaleFactor = 1.07f;
     void Start()
     {
         InitialiseStats();
