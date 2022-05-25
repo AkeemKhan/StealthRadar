@@ -83,9 +83,9 @@ public class PlayerStatistics
         }
     }
 
-    public static void IncreaseExp(int addExp)
+    public static void IncreaseExp(float addExp)
     {
-        PlayerExp += addExp;
+        PlayerExp += (int)addExp;
         
         while (PlayerExp >= 100)
         {
@@ -151,5 +151,10 @@ public class PlayerStatistics
             }
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    public static void DamageStamina(float damage)
+    {
+        Stamina -= damage;        
     }
 }

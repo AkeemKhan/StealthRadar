@@ -878,9 +878,11 @@ MonoBehaviour:
   EnemySpawnPositions: []
   EnemyCount: 0
   DifficultyModifier: 0
+  Grunt: {fileID: 1334848962204230, guid: 1db5da37638664b4da596098f68e15db, type: 3}
   StandardGuard: {fileID: 1334848962204230, guid: 417de28a343c37949ac3ffe87ac0c365,
     type: 3}
   HeavyGuard: {fileID: 1334848962204230, guid: a98a9204bb346c34f8464b599e064b89, type: 3}
+  EliteGuard: {fileID: 1334848962204230, guid: 8ffa70492a25b804190eae8073518990, type: 3}
 --- !u!1 &734680778
 GameObject:
   m_ObjectHideFlags: 0

@@ -291,6 +291,8 @@ public class PatrolAI : EnemyAI {
                 var script = bullet.GetComponent<Bullet>();
                 script.TargetPosition = bulletTargetRecoil;
                 script.Damage = EnemyStats.BulletDamage;
+                Debug.Log($"Script DAM : {script.Damage}");
+                Debug.Log($"EnemyStats DAM : {EnemyStats.BulletDamage}");
                 script.Speed = EnemyStats.BulletSpeed;
 
                 // Rotate to recoil spot
@@ -527,7 +529,7 @@ public class PatrolAI : EnemyAI {
         gameObject.GetComponent<Collider2D>().enabled = false;        
         Destroy(gameObject.GetComponent<Rigidbody2D>());
 
-        PlayerStatistics.IncreaseExp(10 + Random.Range(-10, 10));
+        PlayerStatistics.IncreaseExp(EnemyStats.ExpOnKill);
         PlayerStatistics.EnemiesKilledThisRound++;
 
         if (PlayerStatistics.Detections == 0)

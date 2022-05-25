@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 1626356182254303139}
   - component: {fileID: 1626356182254303149}
   - component: {fileID: 1626356182254303138}
-  - component: {fileID: 6205842705669406939}
   - component: {fileID: -1366256953229578669}
   - component: {fileID: -2044915073227814893}
+  - component: {fileID: -1406864486201347243}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Plasma
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 31991feb2084b5a439ef00c1f85368ff, type: 3}
-  m_Color: {r: 0.78431374, g: 0.7396764, b: 0.3882353, a: 1}
+  m_Sprite: {fileID: 21300000, guid: d49ec32bce89a9c4daf1e00659ed0a64, type: 3}
+  m_Color: {r: 0.33490568, g: 0.6936713, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,24 +104,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.01
---- !u!114 &6205842705669406939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626356182254303136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70511049c80eed94a999141c33351cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 0
-  Speed: 0
-  Marker: {fileID: 0}
-  TargetPosition: {x: 1.3107862, y: -13.968923}
-  Direction: {x: 0, y: 0}
-  MarkerInitialised: 0
 --- !u!114 &-1366256953229578669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +138,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-1406864486201347243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626356182254303136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f483b757d2c234c9aa584ac1c773fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
+  Speed: 0
+  Marker: {fileID: 0}
+  Player: {fileID: 0}
+  TargetPosition: {x: 0, y: 0}
+  Direction: {x: 0, y: 0}
+  MarkerInitialised: 0

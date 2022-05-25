@@ -27,6 +27,8 @@ namespace Assets.Scripts.Enemy.Stats
 
         public override void InitialiseStats()
         {
+            ExpOnKill = 20;
+
             AlwaysFire = true;
 
             MeleeDamage = 10;
@@ -51,7 +53,6 @@ namespace Assets.Scripts.Enemy.Stats
             var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(1.05f, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
             DetectRangeStrong = detectRange > MaxDetectRangeStrong ? MaxDetectRangeStrong : detectRange;
 
-            FovAngleWeak = 60;
             RaycastOffset = 0;
             PatrolRange = 5;
             AlertPhaseDuration = 60;            

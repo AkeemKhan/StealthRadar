@@ -26,11 +26,14 @@ public abstract class EnemyStats : MonoBehaviour
     public float TrackingTime;
     public float TrackingCountdown;
 
-    public bool AlwaysFire;
+    public bool AlwaysFire;    
+
     public float FireRatePerSecond;
     public float MeleeDamage;
     public float BulletSpeed;
     public float BulletDamage;
+
+    public float ExpOnKill;
 
     void Start()
     {

@@ -8,12 +8,10 @@ public class EnemyGeneration : MonoBehaviour
     public int EnemyCount;
     public int DifficultyModifier;
 
-    //public GameObject WeakGuard;
-    //public GameObject LightGuard;
+    public GameObject Grunt;  
     public GameObject StandardGuard;
     public GameObject HeavyGuard;
-    //public GameObject EliteGuard;
-    //public GameObject Boss;
+    public GameObject EliteGuard;    
 
     public void Initialise(List<Vector2> enemySpawnPositions, int enemyCount, int difficultyModifier)
     {
@@ -26,12 +24,33 @@ public class EnemyGeneration : MonoBehaviour
     {
         for (int i = 0; i < EnemyCount; i++)
         {
-            var SelectedEnemy = Random.Range(0, 100) <= 20 ? HeavyGuard : StandardGuard;
+            var SelectedEnemy = SelectEnemy();
             if (EnemySpawnPositions.Count > 0)
             {
                 Vector2 position = EnemySpawnPositions[UnityEngine.Random.Range(0, EnemySpawnPositions.Count - 1)];
                 Instantiate(SelectedEnemy, new Vector3(position.x, position.y), Quaternion.identity);;
             }
+        }
+    }
+
+    public GameObject SelectEnemy()
+    {
+        var percentage = Random.Range(0, 100) + DifficultyModifier;
+        if (percentage <= 50)
+        {
+            return Random.Range(0, 100) < 50 ? HeavyGuard : StandardGuard;
+        }
+        else if (percentage <= 75)
+        {
+            return Grunt;
+        }
+        else if (percentage <= 95)
+        {
+            return HeavyGuard;
+        }
+        else
+        {
+            return EliteGuard;
         }
     }
 }
