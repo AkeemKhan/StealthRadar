@@ -36,15 +36,16 @@ public class EnemyGeneration : MonoBehaviour
     public GameObject SelectEnemy()
     {
         var percentage = Random.Range(0, 100) + DifficultyModifier;
+        Debug.Log($"Percentage - {percentage}");
         if (percentage <= 50)
         {
             return Random.Range(0, 100) < 50 ? HeavyGuard : StandardGuard;
         }
-        else if (percentage <= 75)
+        else if (percentage > 50 && percentage <= 85)
         {
             return Grunt;
         }
-        else if (percentage <= 95)
+        else if (percentage > 90 && percentage <= 98)
         {
             return HeavyGuard;
         }

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Enemy.Stats
         public float MaxAlertSpeed = 1.5f;
         public float MaxPatrolSpeed = 1.2f;
         public float MaxFovAngleStrong = 200;
-        public float MaxDetectRangeStrong = 7f;
+        public float MaxDetectRangeStrong = 5f;
 
         void Start()
         {

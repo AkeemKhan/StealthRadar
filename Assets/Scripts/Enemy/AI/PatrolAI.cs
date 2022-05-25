@@ -35,6 +35,9 @@ public class PatrolAI : EnemyAI {
     public float DefaultFov;
     public float AlertDetectRange;
 
+    public float DetectionCounter;
+    public float DetectionThreshold = 0.5f;
+
     public GameObject GunOffset;
     public GameObject AmmoType;
     public GameObject Gun;
@@ -215,29 +218,35 @@ public class PatrolAI : EnemyAI {
             if (hit)
             {
                 if (hit.collider.tag == EntityConstants.PLAYER_TAG)
-                {                    
-                    EnemyState = EnemyState.Pursue;
+                {
+                    DetectionCounter += Time.deltaTime;
+                    DetectionCounter = DetectionCounter > DetectionThreshold ? DetectionThreshold : DetectionCounter;
 
-                    IsInTargetSight = true;
-
-                    RangeWeaponHandler();
-
-                    if (!DetectedPlayer)
+                    if (DetectionCounter >= DetectionThreshold || DetectedPlayer)
                     {
-                        DetectedPlayer = true;
-                        EnemyStats.DetectRangeStrong = CanFire ? AlertDetectRange : EnemyStats.DetectRangeStrong;
-                        PlayerStatistics.Detections++;
-                    }
+                        EnemyState = EnemyState.Pursue;
 
-                    EnemyStats.Speed = EnemyStats.PursueSpeed;
-                    TargetPosition = PlayerPosition;
-                    // SetAlert();
+                        IsInTargetSight = true;
 
-                    // Initiate Alert Phase
-                    if (EnemyStats.AlertCounter >= EnemyStats.AlertRate)
-                    {
-                        SetAlertStatus();
-                        EnemyStats.AlertCounter = 0;
+                        RangeWeaponHandler();
+
+                        if (!DetectedPlayer)
+                        {
+                            DetectedPlayer = true;
+                            EnemyStats.DetectRangeStrong = CanFire ? AlertDetectRange : EnemyStats.DetectRangeStrong;
+                            PlayerStatistics.Detections++;
+                        }
+
+                        EnemyStats.Speed = EnemyStats.PursueSpeed;
+                        TargetPosition = PlayerPosition;
+                        // SetAlert();
+
+                        // Initiate Alert Phase
+                        if (EnemyStats.AlertCounter >= EnemyStats.AlertRate)
+                        {
+                            SetAlertStatus();
+                            EnemyStats.AlertCounter = 0;
+                        }
                     }
                 }
 
@@ -269,6 +278,9 @@ public class PatrolAI : EnemyAI {
         }
         else
         {
+            if (DetectionCounter > 0)
+                DetectionCounter -= Time.deltaTime;
+
             EnemyStats.Speed = EnemyStats.PatrolSpeed;
         }
     }

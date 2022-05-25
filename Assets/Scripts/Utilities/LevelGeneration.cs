@@ -12,6 +12,7 @@ namespace Assets.Scripts.Utilities
     {
         // Temporary Game Builder
         public int EnemyCount = 10;
+        public int MaxEnemyCount = 20;
         public int GridSize = 10;
         public int NumberOfRooms = 10;
         public GameObject Player;

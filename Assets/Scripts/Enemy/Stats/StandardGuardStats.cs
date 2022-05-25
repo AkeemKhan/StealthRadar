@@ -7,9 +7,9 @@ namespace Assets.Scripts.Enemy.Stats
 {
     public sealed class StandardGuardStats : EnemyStats, IStats
     {
-        public float BasePersueSpeed = 1.8f;
-        public float BaseAlertSpeed = 1.7f;
-        public float BasePatrolSpeed = 1.5f;
+        public float BasePersueSpeed = 1.6f;
+        public float BaseAlertSpeed = 1.5f;
+        public float BasePatrolSpeed = 1.4f;
         public float BaseFovAngleStrong = 90;
         public float BaseDetectRangeStrong = 3f;        
 

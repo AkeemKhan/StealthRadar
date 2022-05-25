@@ -46,7 +46,7 @@ public class PlayerStatistics
 
     public static int PlayerLevel = 1;
     public static int PlayerExp = 0;
-    public static int DifficultyModifier = 10;
+    public static int DifficultyModifier = 0;
 
     // Accessors
     public static bool CurrentFloorCleared
