@@ -20,7 +20,8 @@ public class GruntStats : EnemyStats, IStats
     public float MaxBulletDamage = 50;
     public float MaxBulletSpeed = 20;
 
-    public float ScaleFactor = 1.015f;
+    public const float SCALE_FACTOR = 1.1f;
+
     void Start()
     {
         InitialiseStats();
@@ -28,7 +29,7 @@ public class GruntStats : EnemyStats, IStats
 
     public override void InitialiseStats()
     {
-        ExpOnKill = 5 * ScaleFactor * PlayerStatistics.Stage;
+        ExpOnKill = 5 * SCALE_FACTOR * PlayerStatistics.Stage;
 
         AlwaysFire = true;
         
@@ -38,25 +39,26 @@ public class GruntStats : EnemyStats, IStats
         DetectRangeWeak = 2.5f;
         FovAngleWeak = 40;
 
-        var bulletDamage = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseBulletDamage : BaseBulletDamage;
-        Debug.Log("INIT " + bulletDamage);
+        var scaleFactorByLevel = (float)(Math.Pow(SCALE_FACTOR, PlayerStatistics.Stage));
+
+        var bulletDamage = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseBulletDamage : BaseBulletDamage;        
         BulletDamage = bulletDamage > MaxBulletDamage ? MaxBulletDamage : bulletDamage;
 
-        var bulletSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseBulletSpeed : BaseBulletSpeed;
+        var bulletSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseBulletSpeed : BaseBulletSpeed;
         BulletSpeed = bulletSpeed > MaxBulletSpeed ? MaxBulletSpeed : bulletSpeed;
 
         PursueSpeed = 0;
 
-        var alertSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseAlertSpeed : BaseAlertSpeed;
+        var alertSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseAlertSpeed : BaseAlertSpeed;
         AlertSpeed = alertSpeed > MaxAlertSpeed ? MaxAlertSpeed : alertSpeed;
 
-        var patrolSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BasePatrolSpeed : BasePatrolSpeed;
+        var patrolSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BasePatrolSpeed : BasePatrolSpeed;
         PatrolSpeed = patrolSpeed > MaxPatrolSpeed ? MaxPatrolSpeed : patrolSpeed;
 
-        var fovAngle = (PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseFovAngleStrong : BaseFovAngleStrong);
+        var fovAngle = (PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseFovAngleStrong : BaseFovAngleStrong);
         FovAngleStrong = fovAngle > MaxFovAngleStrong ? MaxFovAngleStrong : fovAngle;
 
-        var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
+        var detectRange = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseDetectRangeStrong : BaseDetectRangeStrong;
         DetectRangeStrong = detectRange > MaxDetectRangeStrong ? MaxDetectRangeStrong : detectRange;
 
         RaycastOffset = 0;

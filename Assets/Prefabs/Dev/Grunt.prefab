@@ -183,6 +183,8 @@ MonoBehaviour:
   CanFire: 0
   DefaultFov: 0
   AlertDetectRange: 0
+  DetectionCounter: 0
+  DetectionThreshold: 1
   GunOffset: {fileID: 1396620063145126}
   AmmoType: {fileID: 1626356182254303136, guid: a70a53f11e721b547aa44d741c08e4d2,
     type: 3}
@@ -219,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ac288340a1ae5488f2763455f4a30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
   PursueSpeed: 0
   AlertSpeed: 0
   PatrolSpeed: 0
@@ -245,19 +248,22 @@ MonoBehaviour:
   MeleeDamage: 0
   BulletSpeed: 0
   BulletDamage: 0
-  BasePersueSpeed: 0.9
+  ExpOnKill: 0
+  DetectionThreshold: 1
   BaseAlertSpeed: 0.85
   BasePatrolSpeed: 0.75
   BaseFovAngleStrong: 70
   BaseDetectRangeStrong: 2
+  BaseBulletDamage: 5
   BaseBulletSpeed: 5
   MaxPersueSpeed: 2.9
   MaxAlertSpeed: 2.7
   MaxPatrolSpeed: 2.5
   MaxFovAngleStrong: 230
   MaxDetectRangeStrong: 10
+  MaxBulletDamage: 50
   MaxBulletSpeed: 20
-  ScaleFactor: 1.5
+  ScaleFactor: 0
 --- !u!1 &1396620063145126
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Enemy.Stats
 {
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Enemy.Stats
         public float MaxFovAngleStrong = 200;
         public float MaxDetectRangeStrong = 6f;
 
-        public float ScaleFactor = 1.005f;
+        public const float SCALE_FACTOR = 1.005f;
 
         void Start()
         {
@@ -38,19 +39,21 @@ namespace Assets.Scripts.Enemy.Stats
             DetectRangeWeak = 2.5f;
             FovAngleWeak = 40;          
 
-            var persueSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BasePersueSpeed : BasePersueSpeed;
+            var scaleFactorByLevel = (float)(Math.Pow(SCALE_FACTOR, PlayerStatistics.Stage));
+
+            var persueSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BasePersueSpeed : BasePersueSpeed;
             PursueSpeed = persueSpeed > MaxPersueSpeed ? MaxPersueSpeed : persueSpeed;
 
-            var alertSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseAlertSpeed : BaseAlertSpeed;
+            var alertSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseAlertSpeed : BaseAlertSpeed;
             AlertSpeed = alertSpeed > MaxAlertSpeed ? MaxAlertSpeed : alertSpeed;
 
-            var patrolSpeed = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) *  BasePatrolSpeed : BasePatrolSpeed;
+            var patrolSpeed = PlayerStatistics.Stage > 1 ? scaleFactorByLevel *  BasePatrolSpeed : BasePatrolSpeed;
             PatrolSpeed = patrolSpeed > MaxPatrolSpeed ? MaxPatrolSpeed : patrolSpeed;
 
-            var fovAngle = (PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseFovAngleStrong : BaseFovAngleStrong);            
+            var fovAngle = (PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseFovAngleStrong : BaseFovAngleStrong);            
             FovAngleStrong = fovAngle > MaxFovAngleStrong ? MaxFovAngleStrong : fovAngle;
 
-            var detectRange = PlayerStatistics.Stage > 1 ? (float)(Math.Pow(ScaleFactor, PlayerStatistics.Stage)) * BaseDetectRangeStrong : BaseDetectRangeStrong;
+            var detectRange = PlayerStatistics.Stage > 1 ? scaleFactorByLevel * BaseDetectRangeStrong : BaseDetectRangeStrong;
             DetectRangeStrong = detectRange > MaxDetectRangeStrong ? MaxDetectRangeStrong : detectRange;
 
             RaycastOffset = 0;

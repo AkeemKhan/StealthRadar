@@ -41,6 +41,7 @@ namespace Assets.Scripts.Utilities
 
         public bool LoadTheTemplates;
         public bool GenerateLevel;
+        public int CustomStage;
 
         Vector2 WorldSize = new Vector2(4, 4);
         Room[,] Rooms;
@@ -51,7 +52,9 @@ namespace Assets.Scripts.Utilities
         {
             GridSizeX = GridSizeY = GridSize;
             if (LoadTheTemplates)
+            {
                 LoadTemplates();
+            }
 
             if (GenerateLevel)
             {

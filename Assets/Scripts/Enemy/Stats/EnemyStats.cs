@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class EnemyStats : MonoBehaviour
 {
+    public int Level;
+
     public float PursueSpeed;
     public float AlertSpeed;
     public float PatrolSpeed;
