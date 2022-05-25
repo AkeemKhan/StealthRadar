@@ -36,7 +36,7 @@ public class PatrolAI : EnemyAI {
     public float AlertDetectRange;
 
     public float DetectionCounter;
-    public float DetectionThreshold = 0.5f;
+    public float DetectionThreshold = 1f;
 
     public GameObject GunOffset;
     public GameObject AmmoType;
@@ -61,6 +61,7 @@ public class PatrolAI : EnemyAI {
         InitialisePatrolRoute();
 
         EnemyStats.InitialiseStats();
+        DetectionThreshold = EnemyStats.DetectionThreshold;
         DefaultFov = EnemyStats.FovAngleStrong;
         AlertDetectRange = 10f;
 
@@ -443,7 +444,8 @@ public class PatrolAI : EnemyAI {
 
         if (coll.transform.tag == EntityConstants.PLAYER_TAG)
         {
-            Debug.Log("WALL COLLISION");
+            DetectedPlayer = true;
+
             if (FieldOfVisionController.IsInSight && EnemyState != EnemyState.Disabled)
             {
                 PreventMove = 1;

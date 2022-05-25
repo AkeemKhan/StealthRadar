@@ -28,7 +28,7 @@ public class EliteGuardStats : EnemyStats
 
         MeleeDamage = 80;
         BulletSpeed = 7;
-        BulletDamage = 40;
+        BulletDamage = 20;
 
         FireRatePerSecond = 4f;
         FireRate = 1 / FireRatePerSecond;

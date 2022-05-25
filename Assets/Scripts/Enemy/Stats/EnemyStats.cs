@@ -35,6 +35,8 @@ public abstract class EnemyStats : MonoBehaviour
 
     public float ExpOnKill;
 
+    public float DetectionThreshold = 1f;
+
     void Start()
     {
         InitialiseStats();
