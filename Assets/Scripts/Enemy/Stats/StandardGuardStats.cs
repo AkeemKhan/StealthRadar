@@ -20,7 +20,7 @@ namespace Assets.Scripts.Enemy.Stats
         public float MaxFovAngleStrong = 200;
         public float MaxDetectRangeStrong = 6f;
 
-        public const float SCALE_FACTOR = 1.005f;
+        public const float SCALE_FACTOR = 1.01f;
 
         void Start()
         {

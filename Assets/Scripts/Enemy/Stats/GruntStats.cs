@@ -8,7 +8,7 @@ public class GruntStats : EnemyStats, IStats
     public float BaseAlertSpeed = 0.85f;
     public float BasePatrolSpeed = 0.75f;
     public float BaseFovAngleStrong = 70;
-    public float BaseDetectRangeStrong = 2f;
+    public float BaseDetectRangeStrong = 3f;
     public float BaseBulletDamage = 5f;
     public float BaseBulletSpeed = 5;
 
@@ -20,7 +20,7 @@ public class GruntStats : EnemyStats, IStats
     public float MaxBulletDamage = 50;
     public float MaxBulletSpeed = 20;
 
-    public const float SCALE_FACTOR = 1.1f;
+    public const float SCALE_FACTOR = 1.2f;
 
     void Start()
     {

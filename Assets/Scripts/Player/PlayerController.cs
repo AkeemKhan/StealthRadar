@@ -18,9 +18,9 @@ public class PlayerController : MonoBehaviour
     {
         InitialisePlayer();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         PlayerLevel = PlayerStatistics.PlayerLevel;
         PlayerExp = PlayerStatistics.PlayerExp;

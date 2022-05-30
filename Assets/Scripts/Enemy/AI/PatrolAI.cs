@@ -220,7 +220,14 @@ public class PatrolAI : EnemyAI {
             {
                 if (hit.collider.tag == EntityConstants.PLAYER_TAG)
                 {
-                    DetectionCounter += Time.deltaTime;
+                    if (Vector2.Distance(PlayerPosition, transform.position) < 2)
+                    {
+                        DetectionCounter += Time.deltaTime * 10;
+                    }
+                    else
+                    {
+                        DetectionCounter += Time.deltaTime;
+                    }
                     DetectionCounter = DetectionCounter > DetectionThreshold ? DetectionThreshold : DetectionCounter;
 
                     if (DetectionCounter >= DetectionThreshold || DetectedPlayer)
@@ -234,6 +241,7 @@ public class PatrolAI : EnemyAI {
                         if (!DetectedPlayer)
                         {
                             DetectedPlayer = true;
+                            DetectionCounter = 0;
                             EnemyStats.DetectRangeStrong = CanFire ? AlertDetectRange : EnemyStats.DetectRangeStrong;
                             PlayerStatistics.Detections++;
                         }

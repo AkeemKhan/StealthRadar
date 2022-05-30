@@ -12,7 +12,7 @@ public class PlayerStatistics
     public static float Health;
     public static float Stamina;
     public static float MaxSpeed;
-    public static float Speed;    
+    public static float Speed;
     public static float RotateSpeed;
     public static float Movex;
     public static float Movey;
@@ -80,6 +80,8 @@ public class PlayerStatistics
             InAlertPhase = false;
             MaxSpeed = 2.8f;
             Speed = 2;
+
+            IncreaseExp(1000);
         }
     }
 
@@ -99,7 +101,7 @@ public class PlayerStatistics
         PlayerLevel++;
         Speed *= Speed >= MaxSpeed ? 1.01f : 1.04f;
         MaxHealth += Random.Range(5, 15);
-        MaxStamina += Random.Range(2, 5);
+        MaxStamina += 1;
 
         Stamina = MaxStamina;
         Health += MaxHealth/10;
@@ -113,9 +115,9 @@ public class PlayerStatistics
         DifficultyModifier += Detections * 5;
 
         var completionBonus = 50;
-        var undetectedBonus = PlayerStatistics.Detections == 0 ? 100 : 0;
-        var enemyKilledBonus = EnemiesKilledThisRound * 10;
-        var stealthKillStreakBonus = System.Math.Pow(PlayerStatistics.CurrentStealthStreak,3);
+        var undetectedBonus = PlayerStatistics.Detections == 0 ? 50 : 0;
+        var enemyKilledBonus = EnemiesKilledThisRound * 5;
+        var stealthKillStreakBonus = System.Math.Pow(PlayerStatistics.CurrentStealthStreak, 2);
         var totalBonus = completionBonus + undetectedBonus + enemyKilledBonus + stealthKillStreakBonus;
 
         IncreaseExp((int)totalBonus);

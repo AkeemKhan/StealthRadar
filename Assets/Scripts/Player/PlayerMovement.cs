@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour {
     public FixedJoystick FixedJoystick;
 
     public bool IsMoving;
+    public bool Sprinting;
+
+    public bool ButtonSprinting;
 
     public float PlayerSpeed
     {
@@ -112,13 +115,24 @@ public class PlayerMovement : MonoBehaviour {
                 GetRotationPosition(PreviousDirection);                
             }
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Sprinting = true;
+        }
+        else
+        {
+            Sprinting = false;
+        }
     }
 
     public void Movement()
     {
+        var isSprinting = ButtonSprinting ? ButtonSprinting : Sprinting;
+
         if (PreviousPosition != Player.transform.position)
         {
-            var newStamina = PlayerStatistics.Stamina - Time.deltaTime;
+            var newStamina = PlayerStatistics.Stamina - (isSprinting ? 10 * Time.deltaTime : Time.deltaTime);
             PlayerStatistics.Stamina = newStamina <= 0 ? 0 : newStamina;
             IsMoving = true;
 
@@ -138,7 +152,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         PreviousPosition = Player.transform.position;
-        var currentSpeed = PlayerStatistics.Stamina > 0 ? PlayerStatistics.Speed : PlayerStatistics.Speed * 0.75f;
+        var currentSpeed = PlayerStatistics.Stamina > 0 ? PlayerStatistics.Speed  * (isSprinting ? 1.8f : 1) : PlayerStatistics.Speed * 0.75f;
 
         transform.position = Vector2.MoveTowards(transform.position, ClickPosition, currentSpeed * Time.deltaTime);        
     }

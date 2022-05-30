@@ -12,13 +12,13 @@ namespace Assets.Scripts.Enemy.Stats
         public float BaseAlertSpeed = 0.85f;
         public float BasePatrolSpeed = 0.75f;
         public float BaseFovAngleStrong = 90;
-        public float BaseDetectRangeStrong = 4f;
+        public float BaseDetectRangeStrong = 5f;
 
         public float MaxPersueSpeed = 0f;
         public float MaxAlertSpeed = 1.5f;
         public float MaxPatrolSpeed = 1.2f;
         public float MaxFovAngleStrong = 200;
-        public float MaxDetectRangeStrong = 5f;
+        public float MaxDetectRangeStrong = 10f;
 
         public float ScaleFactor = 1.015f;
 
