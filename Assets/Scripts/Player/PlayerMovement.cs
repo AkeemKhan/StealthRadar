@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         ClickPosition = Player.transform.position;
         PreviousPosition = Player.transform.position;
-        FixedJoystick = GameObject.Find("Fixed Joystick").GetComponent<FixedJoystick>();
+        FixedJoystick = GameObject.Find("Fixed Joystick")?.GetComponent<FixedJoystick>();
         Player = transform.gameObject;
         SpriteRenderer = Player.GetComponent<SpriteRenderer>();
     }
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour {
             GetRotationPosition(dir);
         }
 
-        if (FixedJoystick.Horizontal != 0)
+        if (FixedJoystick != null && FixedJoystick.Horizontal != 0)
         {
             Vector3 direction = new Vector2(transform.position.x, transform.position.y) + FixedJoystick.Direction;
             ClickPosition = direction;
@@ -163,5 +164,13 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 dir = direction.HasValue ? direction.Value : Input.mousePosition - pos;        
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }    
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == EntityConstants.MELEE_TAG)
+        {
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+        }
+    }
 }

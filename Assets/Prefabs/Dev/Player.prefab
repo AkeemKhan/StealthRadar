@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.44}
   m_LocalScale: {x: 0.5, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3527111955445800619}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -129,10 +130,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 0}
   PlayerMovement: {fileID: 114041052115007414}
-  PlayerLevel: 0
-  PlayerExp: 0
-  Detections: 0
-  Speed: 0
+  MeleeAttack: {fileID: 5359164115399182360, guid: 32f7f6a5d108e5442ae04a9065f61990,
+    type: 3}
+  MeleeOffset: {fileID: 693002962449771161}
+  AttackCooldown: 1
 --- !u!114 &114041052115007414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +156,8 @@ MonoBehaviour:
   PreviousDirection: {x: 0, y: 0, z: 0}
   FixedJoystick: {fileID: 0}
   IsMoving: 0
+  Sprinting: 0
+  ButtonSprinting: 0
 --- !u!114 &114608887073354488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +191,34 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &693002962449771161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3527111955445800619}
+  m_Layer: 0
+  m_Name: Melee Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3527111955445800619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693002962449771161}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.54, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4334001836036554}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

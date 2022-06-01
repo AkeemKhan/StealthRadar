@@ -148,6 +148,32 @@ public class EnemyAI : MonoBehaviour, IEnemyAI
     public virtual void AIStateUpdate() { }
 
     public virtual void FieldOfVisionUpdate() { }
+
+    public void KilledByPlayer()
+    {
+        EnemyState = EnemyState.Disabled;
+        transform.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
+        transform.GetComponent<SpriteRenderer>().enabled = true;
+        transform.GetComponent<SpriteRenderer>().renderingLayerMask = 0;
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject.GetComponent<Rigidbody2D>());
+
+        PlayerStatistics.IncreaseExp(EnemyStats.ExpOnKill);
+        PlayerStatistics.EnemiesKilledThisRound++;
+
+        if (PlayerStatistics.Detections == 0)
+            PlayerStatistics.CurrentStealthStreak++;
+    }
+
+    public void DamageEnemy(float damage)
+    {
+        EnemyStats.Health -= damage;
+        if (EnemyStats.Health <= 0)
+        {
+            KilledByPlayer();
+        }
+    }
 }
 
 public enum EnemyState

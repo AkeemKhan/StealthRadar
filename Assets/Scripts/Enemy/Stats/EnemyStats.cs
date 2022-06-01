@@ -39,6 +39,8 @@ public abstract class EnemyStats : MonoBehaviour
 
     public float DetectionThreshold = 1f;
 
+    public float Health = 100;
+
     void Start()
     {
         InitialiseStats();

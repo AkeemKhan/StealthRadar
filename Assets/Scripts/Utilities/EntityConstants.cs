@@ -15,5 +15,6 @@ namespace Assets.Scripts.Utilities
         public const string EXIT_TAG = "Exit";
         public const string PFNODE_TAG = "PFNode";
         public const string BULLET_TAG = "Bullet";
+        public const string MELEE_TAG = "Melee";
     }
 }

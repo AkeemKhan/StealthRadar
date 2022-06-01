@@ -296,7 +296,7 @@ public class PatrolAI : EnemyAI {
 
     public virtual void RangeWeaponHandler()
     {
-        if (CanFire)
+        if (CanFire && PreventMove <= 0)
         {
             if (EnemyStats.FireCooldown >= EnemyStats.FireRate)
             {
@@ -347,6 +347,7 @@ public class PatrolAI : EnemyAI {
         {
             EnemyState = EnemyState.Alert;
             EnemyStats.AlertPhaseCountdown = EnemyStats.AlertPhaseDuration;
+            NewMovementLocation = true;
         }
     }
 
@@ -539,22 +540,5 @@ public class PatrolAI : EnemyAI {
             //    backTrackCounter = 0;
             //}
         }                
-    }
-
-    public void KilledByPlayer()
-    {
-        EnemyState = EnemyState.Disabled;
-        transform.GetComponent<SpriteRenderer>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
-        transform.GetComponent<SpriteRenderer>().enabled = true;
-        transform.GetComponent<SpriteRenderer>().renderingLayerMask = 0;
-        gameObject.GetComponent<Collider2D>().enabled = false;        
-        Destroy(gameObject.GetComponent<Rigidbody2D>());
-
-        PlayerStatistics.IncreaseExp(EnemyStats.ExpOnKill);
-        PlayerStatistics.EnemiesKilledThisRound++;
-
-        if (PlayerStatistics.Detections == 0)
-            PlayerStatistics.CurrentStealthStreak++;
-    }
+    }    
 }
