@@ -458,7 +458,9 @@ public class PatrolAI : EnemyAI {
             if (FieldOfVisionController.IsInSight && EnemyState != EnemyState.Disabled)
             {
                 PreventMove = 1;
-                PlayerStatistics.DamagePlayer(EnemyStats.MeleeDamage);
+
+                if (PreventMove <= 0)
+                    PlayerStatistics.DamagePlayer(EnemyStats.MeleeDamage);
             }
             else
             {

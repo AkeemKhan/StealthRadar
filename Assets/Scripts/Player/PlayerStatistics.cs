@@ -80,8 +80,6 @@ public class PlayerStatistics
             InAlertPhase = false;
             MaxSpeed = 2.8f;
             Speed = 2;
-
-            IncreaseExp(1000);
         }
     }
 

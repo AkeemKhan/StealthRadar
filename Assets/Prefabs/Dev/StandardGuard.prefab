@@ -181,6 +181,10 @@ MonoBehaviour:
   DetectedPlayer: 0
   DumbPatrol: 0
   CanFire: 0
+  DefaultFov: 0
+  AlertDetectRange: 0
+  DetectionCounter: 0
+  DetectionThreshold: 1
   GunOffset: {fileID: 1396620063145126}
   AmmoType: {fileID: 1626356182254303136, guid: a70a53f11e721b547aa44d741c08e4d2,
     type: 3}
@@ -200,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5473583555e3f9241ac7726fc594fac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
   PursueSpeed: 0
   AlertSpeed: 0
   PatrolSpeed: 0
@@ -226,6 +231,9 @@ MonoBehaviour:
   MeleeDamage: 0
   BulletSpeed: 0
   BulletDamage: 0
+  ExpOnKill: 0
+  DetectionThreshold: 1
+  Health: 100
   BasePersueSpeed: 1.8
   BaseAlertSpeed: 1.7
   BasePatrolSpeed: 1.5
@@ -252,6 +260,7 @@ MonoBehaviour:
   EnemyStats: {fileID: 114688967068331222}
   Direction: {x: 0, y: 0, z: 0}
   IsInSight: 0
+  PlayerMovement: {fileID: 0}
 --- !u!1 &1396620063145126
 GameObject:
   m_ObjectHideFlags: 0
